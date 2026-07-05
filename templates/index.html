@@ -1,0 +1,1334 @@
+<!-- templates/index.html (Updated with Language Selector) -->
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Phishing Detector</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Cairo Font for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom CSS */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-blue: #4f8cff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ec4899;
+            --gradient-start: #1a1a2e;
+            --gradient-end: #16213e;
+        }
+
+        [data-bs-theme="light"] {
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --text-primary: #1a1a2e;
+            --text-secondary: rgba(0, 0, 0, 0.6);
+            --gradient-start: #f0f4ff;
+            --gradient-end: #e8edf5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Arabic font support */
+        body[dir="rtl"] {
+            font-family: 'Cairo', 'Inter', -apple-system, sans-serif;
+        }
+
+        .lang-ar body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Language Selector */
+        .lang-selector {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn.active {
+            color: white;
+            background: var(--accent-blue);
+        }
+
+        [data-bs-theme="light"] .lang-btn.active {
+            color: white;
+        }
+
+        /* Main container */
+        .main-container {
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+
+        /* Input area */
+        .input-area {
+            min-height: 150px;
+            resize: vertical;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .input-area:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .input-area::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            padding: 12px 32px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-primary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79, 140, 255, 0.4);
+        }
+
+        .btn-primary-gradient:disabled {
+            opacity: 0.6;
+            transform: none;
+        }
+
+        /* Result cards */
+        .result-card {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Threat level badges */
+        .threat-safe { background: #00c853; color: white; }
+        .threat-low { background: #ffd600; color: #000; }
+        .threat-medium { background: #ff9100; color: white; }
+        .threat-high { background: #ff1744; color: white; }
+        .threat-critical { background: #d50000; color: white; }
+
+        /* Risk score circle */
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 auto;
+            position: relative;
+            background: conic-gradient(
+                var(--accent-blue) 0%,
+                var(--accent-purple) var(--score-percent, 0%),
+                var(--glass-bg) var(--score-percent, 0%)
+            );
+        }
+
+        .score-circle-inner {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: var(--gradient-start);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        [data-bs-theme="light"] .score-circle-inner {
+            background: white;
+            color: #1a1a2e;
+        }
+
+        /* Indicators list */
+        .indicator-item {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [dir="rtl"] .indicator-item {
+            border-left: none;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .indicator-item .severity-high { color: #ff1744; }
+        .indicator-item .severity-medium { color: #ff9100; }
+        .indicator-item .severity-low { color: #ffd600; }
+
+        /* Recommendations */
+        .recommendation-item {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Loading animation */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .loading-spinner .spinner-grow {
+            width: 3rem;
+            height: 3rem;
+            margin: 0 10px;
+        }
+
+        /* History */
+        .history-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--glass-border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 1rem;
+            }
+            .score-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            .score-circle-inner {
+                width: 75px;
+                height: 75px;
+                font-size: 1.5rem;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            .lang-btn {
+                padding: 2px 8px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--glass-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        [dir="rtl"] .toast-container {
+            right: auto;
+            left: 20px;
+        }
+
+        .toast-custom {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 10px;
+            color: white;
+            min-width: 300px;
+            max-width: 500px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast-custom.error { border-left: 4px solid #ff1744; }
+        .toast-custom.success { border-left: 4px solid #00c853; }
+        .toast-custom.info { border-left: 4px solid var(--accent-blue); }
+
+        [dir="rtl"] .toast-custom {
+            border-left: none;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        [dir="rtl"] .toast-custom.error { border-right: 4px solid #ff1744; }
+        [dir="rtl"] .toast-custom.success { border-right: 4px solid #00c853; }
+        [dir="rtl"] .toast-custom.info { border-right: 4px solid var(--accent-blue); }
+
+        /* Tab styling */
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+            padding: 12px 24px;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* File upload styling */
+        .file-drop-zone {
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-drop-zone:hover {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .file-drop-zone.dragover {
+            border-color: var(--accent-purple);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* RTL specific adjustments */
+        [dir="rtl"] .ms-auto {
+            margin-right: auto !important;
+            margin-left: 0 !important;
+        }
+
+        [dir="rtl"] .me-2 {
+            margin-right: 0 !important;
+            margin-left: 0.5rem !important;
+        }
+
+        [dir="rtl"] .me-3 {
+            margin-right: 0 !important;
+            margin-left: 1rem !important;
+        }
+
+        [dir="rtl"] .ms-2 {
+            margin-left: 0 !important;
+            margin-right: 0.5rem !important;
+        }
+
+        [dir="rtl"] .text-start {
+            text-align: right !important;
+        }
+
+        [dir="rtl"] .text-end {
+            text-align: left !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-halved me-2"></i><span data-i18n="app_name">AI Phishing Detector</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <!-- Language Selector -->
+                    <li class="nav-item">
+                        <div class="lang-selector">
+                            <button class="lang-btn" data-lang="ar" onclick="changeLanguage('ar')">العربية</button>
+                            <button class="lang-btn" data-lang="fr" onclick="changeLanguage('fr')">FR</button>
+                            <button class="lang-btn active" data-lang="en" onclick="changeLanguage('en')">EN</button>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-sm btn-outline-light" onclick="toggleTheme()">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-sm btn-outline-light" onclick="loadHistory()">
+                            <i class="fas fa-history"></i> <span data-i18n="history">History</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold">
+                        <i class="fas fa-robot text-primary me-3"></i><span data-i18n="app_name">AI Phishing Detector</span>
+                    </h1>
+                    <p class="lead text-secondary" data-i18n="subtitle">Analyze emails, messages, and URLs for phishing threats</p>
+                </div>
+
+                <!-- Input Section -->
+                <div class="glass-card mb-4">
+                    <ul class="nav nav-tabs mb-3" id="analysisTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="text-tab" data-bs-toggle="tab" data-bs-target="#text-content" type="button" role="tab">
+                                <i class="fas fa-file-lines me-2"></i><span data-i18n="tab_text">Text</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-content" type="button" role="tab">
+                                <i class="fas fa-link me-2"></i><span data-i18n="tab_url">URL</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-content" type="button" role="tab">
+                                <i class="fas fa-upload me-2"></i><span data-i18n="tab_file">File</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Text Tab -->
+                        <div class="tab-pane fade show active" id="text-content" role="tabpanel">
+                            <textarea class="form-control input-area" id="textInput" rows="6" data-i18n-placeholder="text_placeholder" placeholder="Paste email, SMS, or WhatsApp message here..."></textarea>
+                        </div>
+                        <!-- URL Tab -->
+                        <div class="tab-pane fade" id="url-content" role="tabpanel">
+                            <input type="text" class="form-control input-area" id="urlInput" data-i18n-placeholder="url_placeholder" placeholder="Enter URL to analyze (e.g., https://example.com)" style="height: 60px;">
+                            <small class="text-secondary mt-2 d-block" data-i18n="url_example">Example: https://www.paypal.com.verify-account.com</small>
+                        </div>
+                        <!-- File Tab -->
+                        <div class="tab-pane fade" id="file-content" role="tabpanel">
+                            <div class="file-drop-zone" id="fileDropZone">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                <h5 data-i18n="file_drop">Drop your file here</h5>
+                                <p class="text-secondary small" data-i18n="file_supported">or click to browse (TXT, CSV, JSON files supported)</p>
+                                <input type="file" id="fileInput" style="display: none;" accept=".txt,.csv,.json">
+                            </div>
+                            <div id="fileInfo" class="mt-2" style="display: none;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-file text-primary"></i>
+                                    <span id="fileName" class="fw-medium"></span>
+                                    <button class="btn btn-sm btn-outline-danger ms-auto" onclick="clearFile()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 mt-4">
+                        <button class="btn btn-primary-gradient" id="analyzeBtn" onclick="analyzeContent()">
+                            <i class="fas fa-microchip me-2"></i><span data-i18n="analyze_btn">Analyze with AI</span>
+                        </button>
+                        <button class="btn btn-outline-light" onclick="clearInputs()">
+                            <i class="fas fa-eraser me-2"></i><span data-i18n="clear_btn">Clear</span>
+                        </button>
+                        <button class="btn btn-outline-light" onclick="loadSample()">
+                            <i class="fas fa-pen me-2"></i><span data-i18n="sample_btn">Load Sample</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading Animation -->
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-purple" role="status" style="animation-delay: 0.2s;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-pink" role="status" style="animation-delay: 0.4s;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-secondary" data-i18n="loading_text">AI is analyzing your content...</p>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" style="display: none;">
+                    <div class="row g-4 mt-2">
+                        <!-- Risk Score & Threat Level -->
+                        <div class="col-md-4">
+                            <div class="glass-card text-center h-100">
+                                <h6 class="text-secondary mb-3"><span data-i18n="risk_score">Risk Score</span></h6>
+                                <div class="score-circle" id="scoreCircle">
+                                    <div class="score-circle-inner" id="scoreDisplay">0</div>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="badge" id="threatBadge" style="font-size: 1rem; padding: 8px 20px;" data-i18n="threat_safe">Safe</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Explanation -->
+                        <div class="col-md-8">
+                            <div class="glass-card h-100">
+                                <h6 class="text-secondary mb-2"><i class="fas fa-brain me-2"></i><span data-i18n="ai_explanation">AI Explanation</span></h6>
+                                <p id="explanationText" class="mb-0" style="line-height: 1.6;">Analysis explanation will appear here.</p>
+                            </div>
+                        </div>
+
+                        <!-- Indicators -->
+                        <div class="col-12">
+                            <div class="glass-card">
+                                <h6 class="text-secondary mb-3"><i class="fas fa-exclamation-triangle me-2"></i><span data-i18n="indicators">Detected Indicators</span></h6>
+                                <div id="indicatorsList">
+                                    <p class="text-secondary" data-i18n="no_indicators">No indicators detected.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="col-12">
+                            <div class="glass-card">
+                                <h6 class="text-secondary mb-3"><i class="fas fa-shield me-2"></i><span data-i18n="recommendations">Security Recommendations</span></h6>
+                                <div id="recommendationsList">
+                                    <p class="text-secondary" data-i18n="no_recommendations">No recommendations available.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-12">
+                            <div class="glass-card">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="btn btn-outline-light" onclick="copyReport()">
+                                        <i class="fas fa-copy me-2"></i><span data-i18n="copy_report">Copy Report</span>
+                                    </button>
+                                    <button class="btn btn-outline-light" onclick="exportPDF()" id="exportBtn">
+                                        <i class="fas fa-file-pdf me-2"></i><span data-i18n="export_pdf">Export PDF</span>
+                                    </button>
+                                    <span class="ms-auto text-secondary small" id="analysisId"><span data-i18n="id_label">ID</span>: -</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="mt-5" id="historySection" style="display: none;">
+                    <div class="glass-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0"><i class="fas fa-clock-rotate me-2"></i><span data-i18n="history_title">Analysis History</span></h5>
+                            <button class="btn btn-sm btn-outline-light" onclick="loadHistory()">
+                                <i class="fas fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div id="historyList">
+                            <p class="text-secondary text-center" data-i18n="no_history">No history available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // ============================================
+        // TRANSLATIONS
+        // ============================================
+        const translations = {
+            en: {
+                app_name: "AI Phishing Detector",
+                subtitle: "Analyze emails, messages, and URLs for phishing threats",
+                tab_text: "Text",
+                tab_url: "URL",
+                tab_file: "File",
+                text_placeholder: "Paste email, SMS, or WhatsApp message here...",
+                url_placeholder: "Enter URL to analyze (e.g., https://example.com)",
+                url_example: "Example: https://www.paypal.com.verify-account.com",
+                file_drop: "Drop your file here",
+                file_supported: "or click to browse (TXT, CSV, JSON files supported)",
+                analyze_btn: "Analyze with AI",
+                clear_btn: "Clear",
+                sample_btn: "Load Sample",
+                loading_text: "AI is analyzing your content...",
+                risk_score: "Risk Score",
+                threat_safe: "Safe",
+                ai_explanation: "AI Explanation",
+                indicators: "Detected Indicators",
+                no_indicators: "No indicators detected.",
+                recommendations: "Security Recommendations",
+                no_recommendations: "No recommendations available.",
+                copy_report: "Copy Report",
+                export_pdf: "Export PDF",
+                id_label: "ID",
+                history_title: "Analysis History",
+                no_history: "No history available.",
+                history: "History",
+                // Toast messages
+                toast_file_loaded: "File loaded successfully!",
+                toast_sample_loaded: "Sample phishing email loaded!",
+                toast_enter_content: "Please enter some content to analyze.",
+                toast_upload_file: "Please upload a file first.",
+                toast_analysis_complete: "Analysis complete!",
+                toast_analysis_failed: "Analysis failed.",
+                toast_network_error: "Network error. Please try again.",
+                toast_copied: "Report copied to clipboard!",
+                toast_pdf_downloaded: "PDF downloaded successfully!",
+                toast_pdf_failed: "Failed to generate PDF.",
+                toast_history_failed: "Failed to load history.",
+                toast_analysis_loaded: "Analysis loaded from history.",
+                // Threat levels
+                threat_safe: "Safe",
+                threat_low: "Low",
+                threat_medium: "Medium",
+                threat_high: "High",
+                threat_critical: "Critical"
+            },
+            fr: {
+                app_name: "Détecteur de Phishing IA",
+                subtitle: "Analysez les emails, SMS, et URLs pour détecter les tentatives de phishing",
+                tab_text: "Texte",
+                tab_url: "URL",
+                tab_file: "Fichier",
+                text_placeholder: "Collez un email, SMS ou message WhatsApp ici...",
+                url_placeholder: "Entrez une URL à analyser (ex: https://exemple.com)",
+                url_example: "Exemple: https://www.paypal.com.verify-account.com",
+                file_drop: "Déposez votre fichier ici",
+                file_supported: "ou cliquez pour parcourir (fichiers TXT, CSV, JSON supportés)",
+                analyze_btn: "Analyser avec IA",
+                clear_btn: "Effacer",
+                sample_btn: "Charger un exemple",
+                loading_text: "L'IA analyse votre contenu...",
+                risk_score: "Score de Risque",
+                threat_safe: "Sûr",
+                ai_explanation: "Explication IA",
+                indicators: "Indicateurs Détectés",
+                no_indicators: "Aucun indicateur détecté.",
+                recommendations: "Recommandations de Sécurité",
+                no_recommendations: "Aucune recommandation disponible.",
+                copy_report: "Copier le Rapport",
+                export_pdf: "Exporter en PDF",
+                id_label: "ID",
+                history_title: "Historique des Analyses",
+                no_history: "Aucun historique disponible.",
+                history: "Historique",
+                toast_file_loaded: "Fichier chargé avec succès !",
+                toast_sample_loaded: "Exemple d'email de phishing chargé !",
+                toast_enter_content: "Veuillez entrer du contenu à analyser.",
+                toast_upload_file: "Veuillez d'abord télécharger un fichier.",
+                toast_analysis_complete: "Analyse terminée !",
+                toast_analysis_failed: "L'analyse a échoué.",
+                toast_network_error: "Erreur réseau. Veuillez réessayer.",
+                toast_copied: "Rapport copié dans le presse-papiers !",
+                toast_pdf_downloaded: "PDF téléchargé avec succès !",
+                toast_pdf_failed: "Échec de la génération du PDF.",
+                toast_history_failed: "Échec du chargement de l'historique.",
+                toast_analysis_loaded: "Analyse chargée depuis l'historique.",
+                threat_safe: "Sûr",
+                threat_low: "Faible",
+                threat_medium: "Moyen",
+                threat_high: "Élevé",
+                threat_critical: "Critique"
+            },
+            ar: {
+                app_name: "كاشف التصيد بالذكاء الاصطناعي",
+                subtitle: "حلل رسائل البريد الإلكتروني والرسائل النصية والروابط للكشف عن محاولات التصيد",
+                tab_text: "نص",
+                tab_url: "رابط",
+                tab_file: "ملف",
+                text_placeholder: "الصق البريد الإلكتروني أو الرسالة هنا...",
+                url_placeholder: "أدخل رابطاً للتحليل (مثال: https://example.com)",
+                url_example: "مثال: https://www.paypal.com.verify-account.com",
+                file_drop: "أسقط ملفك هنا",
+                file_supported: "أو انقر للتصفح (ملفات TXT, CSV, JSON مدعومة)",
+                analyze_btn: "حلل بالذكاء الاصطناعي",
+                clear_btn: "مسح",
+                sample_btn: "تحميل عينة",
+                loading_text: "الذكاء الاصطناعي يحلل المحتوى الخاص بك...",
+                risk_score: "نقاط المخاطرة",
+                threat_safe: "آمن",
+                ai_explanation: "شرح الذكاء الاصطناعي",
+                indicators: "المؤشرات المكتشفة",
+                no_indicators: "لم يتم اكتشاف مؤشرات.",
+                recommendations: "توصيات الأمان",
+                no_recommendations: "لا توجد توصيات متاحة.",
+                copy_report: "نسخ التقرير",
+                export_pdf: "تصدير PDF",
+                id_label: "المعرف",
+                history_title: "سجل التحليلات",
+                no_history: "لا يوجد سجل متاح.",
+                history: "السجل",
+                toast_file_loaded: "تم تحميل الملف بنجاح!",
+                toast_sample_loaded: "تم تحميل عينة بريد تصيد!",
+                toast_enter_content: "يرجى إدخال محتوى للتحليل.",
+                toast_upload_file: "يرجى تحميل ملف أولاً.",
+                toast_analysis_complete: "اكتمل التحليل!",
+                toast_analysis_failed: "فشل التحليل.",
+                toast_network_error: "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+                toast_copied: "تم نسخ التقرير إلى الحافظة!",
+                toast_pdf_downloaded: "تم تحميل PDF بنجاح!",
+                toast_pdf_failed: "فشل إنشاء PDF.",
+                toast_history_failed: "فشل تحميل السجل.",
+                toast_analysis_loaded: "تم تحميل التحليل من السجل.",
+                threat_safe: "آمن",
+                threat_low: "منخفض",
+                threat_medium: "متوسط",
+                threat_high: "مرتفع",
+                threat_critical: "حرج"
+            }
+        };
+
+        let currentLang = 'en';
+
+        // ============================================
+        // LANGUAGE FUNCTIONS
+        // ============================================
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update RTL/LTR
+            if (lang === 'ar') {
+                document.body.parentElement.setAttribute('dir', 'rtl');
+                document.body.parentElement.classList.add('lang-ar');
+                document.body.classList.add('lang-ar');
+            } else {
+                document.body.parentElement.setAttribute('dir', 'ltr');
+                document.body.parentElement.classList.remove('lang-ar');
+                document.body.classList.remove('lang-ar');
+            }
+
+            // Translate all elements
+            translatePage(lang);
+            
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (translations[lang] && translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            // Update threat badge if visible
+            const threatBadge = document.getElementById('threatBadge');
+            if (threatBadge && threatBadge.textContent) {
+                const threatKey = threatBadge.textContent.toLowerCase();
+                const threatMap = {
+                    'safe': 'threat_safe',
+                    'low': 'threat_low',
+                    'medium': 'threat_medium',
+                    'high': 'threat_high',
+                    'critical': 'threat_critical'
+                };
+                if (threatMap[threatKey] && translations[lang] && translations[lang][threatMap[threatKey]]) {
+                    threatBadge.textContent = translations[lang][threatMap[threatKey]];
+                }
+            }
+
+            // Save language preference
+            localStorage.setItem('preferred_lang', lang);
+        }
+
+        function translatePage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Load saved language preference
+        function loadLanguagePreference() {
+            const savedLang = localStorage.getItem('preferred_lang');
+            if (savedLang && translations[savedLang]) {
+                changeLanguage(savedLang);
+            }
+        }
+
+        // ============================================
+        // THEME FUNCTIONS
+        // ============================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        if (savedTheme === 'light') {
+            document.getElementById('themeIcon').className = 'fas fa-sun';
+        }
+
+        // ============================================
+        // FILE UPLOAD FUNCTIONS
+        // ============================================
+        const fileDropZone = document.getElementById('fileDropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        fileDropZone.addEventListener('click', () => fileInput.click());
+        fileDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileDropZone.classList.add('dragover');
+        });
+        fileDropZone.addEventListener('dragleave', () => {
+            fileDropZone.classList.remove('dragover');
+        });
+        fileDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileDropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        let uploadedFileContent = null;
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedFileContent = e.target.result;
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileInfo').style.display = 'block';
+                showToast(translations[currentLang].toast_file_loaded, 'success');
+            };
+            reader.readAsText(file);
+        }
+
+        function clearFile() {
+            uploadedFileContent = null;
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileName').textContent = '';
+        }
+
+        // ============================================
+        // SAMPLE DATA
+        // ============================================
+        function loadSample() {
+            const sample = `From: support@paypal-secure.com
+        Subject: URGENT: Your Account Has Been Limited
+
+        Dear Valued Customer,
+
+        We have detected suspicious activity on your PayPal account. To prevent unauthorized access, we have temporarily limited your account.
+
+        Please verify your identity immediately by clicking the link below:
+        https://paypal.verify-account-security.com/confirm
+
+        Failure to verify within 24 hours will result in permanent account suspension.
+
+        Thank you for your cooperation,
+        PayPal Security Team`;
+
+            document.getElementById('textInput').value = sample;
+            // Switch to text tab
+            const textTab = document.querySelector('[data-bs-target="#text-content"]');
+            new bootstrap.Tab(textTab).show();
+            showToast(translations[currentLang].toast_sample_loaded, 'info');
+        }
+
+        function clearInputs() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('urlInput').value = '';
+            clearFile();
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('historySection').style.display = 'none';
+        }
+
+        // ============================================
+        // MAIN ANALYSIS FUNCTION
+        // ============================================
+        async function analyzeContent() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultsSection = document.getElementById('resultsSection');
+
+            // Get active tab content
+            const activeTab = document.querySelector('.nav-tabs .nav-link.active');
+            let type = 'text';
+            let content = '';
+
+            if (activeTab.id === 'text-tab') {
+                content = document.getElementById('textInput').value.trim();
+                type = 'text';
+            } else if (activeTab.id === 'url-tab') {
+                content = document.getElementById('urlInput').value.trim();
+                type = 'url';
+            } else if (activeTab.id === 'file-tab') {
+                if (uploadedFileContent) {
+                    content = uploadedFileContent;
+                    type = 'file';
+                } else {
+                    showToast(translations[currentLang].toast_upload_file, 'error');
+                    return;
+                }
+            }
+
+            if (!content) {
+                showToast(translations[currentLang].toast_enter_content, 'error');
+                return;
+            }
+
+            // Show loading
+            analyzeBtn.disabled = true;
+            loadingSpinner.style.display = 'block';
+            resultsSection.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: type,
+                        content: content,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data);
+                    showToast(translations[currentLang].toast_analysis_complete, 'success');
+                } else {
+                    showToast(data.error || translations[currentLang].toast_analysis_failed, 'error');
+                }
+            } catch (error) {
+                showToast(translations[currentLang].toast_network_error, 'error');
+                console.error('Analysis error:', error);
+            } finally {
+                analyzeBtn.disabled = false;
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // DISPLAY RESULTS
+        // ============================================
+        function displayResults(data) {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.style.display = 'block';
+
+            // Risk Score
+            const score = data.risk_score || 0;
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const scoreCircle = document.getElementById('scoreCircle');
+            scoreDisplay.textContent = score;
+            scoreCircle.style.setProperty('--score-percent', `${score}%`);
+
+            // Threat Level
+            const threatLevel = data.threat_level || 'Safe';
+            const threatBadge = document.getElementById('threatBadge');
+            const threatKey = threatLevel.toLowerCase();
+            const threatMap = {
+                'safe': 'threat_safe',
+                'low': 'threat_low',
+                'medium': 'threat_medium',
+                'high': 'threat_high',
+                'critical': 'threat_critical'
+            };
+            
+            // Translate threat level
+            let translatedThreat = threatLevel;
+            if (threatMap[threatKey] && translations[currentLang] && translations[currentLang][threatMap[threatKey]]) {
+                translatedThreat = translations[currentLang][threatMap[threatKey]];
+            }
+            
+            threatBadge.textContent = translatedThreat;
+            threatBadge.className = `badge threat-${threatKey}`;
+
+            // Explanation
+            document.getElementById('explanationText').textContent = data.explanation || 'No explanation provided.';
+
+            // Indicators
+            const indicatorsList = document.getElementById('indicatorsList');
+            if (data.indicators && data.indicators.length > 0) {
+                indicatorsList.innerHTML = data.indicators.map(ind => `
+                    <div class="indicator-item">
+                        <span>${ind.description || 'Unknown indicator'}</span>
+                        <span class="severity-${ind.severity?.toLowerCase() || 'low'}">
+                            <i class="fas fa-circle fa-xs me-1"></i>${ind.severity || 'Low'}
+                        </span>
+                    </div>
+                `).join('');
+            } else {
+                indicatorsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_indicators}</p>`;
+            }
+
+            // Recommendations
+            const recommendationsList = document.getElementById('recommendationsList');
+            if (data.recommendations && data.recommendations.length > 0) {
+                recommendationsList.innerHTML = data.recommendations.map(rec => `
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle text-primary me-2"></i>${rec}
+                    </div>
+                `).join('');
+            } else {
+                recommendationsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_recommendations}</p>`;
+            }
+
+            // Analysis ID
+            document.getElementById('analysisId').innerHTML = `<span data-i18n="id_label">${translations[currentLang].id_label}</span>: ${data.id || 'N/A'}`;
+
+            // Store current analysis for export
+            window.currentAnalysis = data;
+        }
+
+        // ============================================
+        // COPY REPORT
+        // ============================================
+        function copyReport() {
+            const data = window.currentAnalysis;
+            if (!data) {
+                showToast('No analysis to copy.', 'error');
+                return;
+            }
+
+            const report = `
+        AI Phishing Detector Report
+        ============================
+        ID: ${data.id || 'N/A'}
+        Date: ${data.timestamp || 'N/A'}
+        Risk Score: ${data.risk_score || 0}/100
+        Threat Level: ${data.threat_level || 'Safe'}
+
+        Explanation:
+        ${data.explanation || 'No explanation provided.'}
+
+        Indicators:
+        ${data.indicators?.map(i => `- ${i.description} (${i.severity})`).join('\n') || 'No indicators detected.'}
+
+        Recommendations:
+        ${data.recommendations?.map(r => `- ${r}`).join('\n') || 'No recommendations available.'}
+        `;
+
+            navigator.clipboard.writeText(report).then(() => {
+                showToast(translations[currentLang].toast_copied, 'success');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = report;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast(translations[currentLang].toast_copied, 'success');
+            });
+        }
+
+        // ============================================
+        // EXPORT PDF
+        // ============================================
+        async function exportPDF() {
+            const data = window.currentAnalysis;
+            if (!data) {
+                showToast('No analysis to export.', 'error');
+                return;
+            }
+
+            const exportBtn = document.getElementById('exportBtn');
+            exportBtn.disabled = true;
+            exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating...';
+
+            try {
+                const response = await fetch(`/api/report/${data.id}`);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `phishing_report_${data.id}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showToast(translations[currentLang].toast_pdf_downloaded, 'success');
+                } else {
+                    showToast(translations[currentLang].toast_pdf_failed, 'error');
+                }
+            } catch (error) {
+                showToast(translations[currentLang].toast_pdf_failed, 'error');
+                console.error('PDF error:', error);
+            } finally {
+                exportBtn.disabled = false;
+                exportBtn.innerHTML = `<i class="fas fa-file-pdf me-2"></i>${translations[currentLang].export_pdf}`;
+            }
+        }
+
+        // ============================================
+        // LOAD HISTORY
+        // ============================================
+        async function loadHistory() {
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+
+            try {
+                const response = await fetch('/api/history?limit=20');
+                const data = await response.json();
+
+                if (response.ok && data.history && data.history.length > 0) {
+                    historyList.innerHTML = data.history.map(item => {
+                        const threatKey = (item.threat_level || 'Safe').toLowerCase();
+                        const threatMap = {
+                            'safe': 'threat_safe',
+                            'low': 'threat_low',
+                            'medium': 'threat_medium',
+                            'high': 'threat_high',
+                            'critical': 'threat_critical'
+                        };
+                        let translatedThreat = item.threat_level || 'Safe';
+                        if (threatMap[threatKey] && translations[currentLang] && translations[currentLang][threatMap[threatKey]]) {
+                            translatedThreat = translations[currentLang][threatMap[threatKey]];
+                        }
+                        
+                        return `
+                            <div class="history-item" onclick="loadAnalysis('${item.id}')">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge threat-${threatKey} me-2">${translatedThreat}</span>
+                                        <span class="text-secondary small">${item.timestamp || 'N/A'}</span>
+                                    </div>
+                                    <span class="text-secondary small">${translations[currentLang].risk_score}: ${item.risk_score || 0}</span>
+                                </div>
+                                <div class="text-secondary small mt-1">${item.content?.substring(0, 100) || 'No content'}...</div>
+                            </div>
+                        `;
+                    }).join('');
+                    historySection.style.display = 'block';
+                } else {
+                    historyList.innerHTML = `<p class="text-secondary text-center">${translations[currentLang].no_history}</p>`;
+                    historySection.style.display = 'block';
+                }
+            } catch (error) {
+                showToast(translations[currentLang].toast_history_failed, 'error');
+                console.error('History error:', error);
+            }
+        }
+
+        // ============================================
+        // LOAD ANALYSIS FROM HISTORY
+        // ============================================
+        async function loadAnalysis(id) {
+            try {
+                const response = await fetch(`/api/history/${id}`);
+                const data = await response.json();
+                if (response.ok) {
+                    displayResults(data);
+                    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                    showToast(translations[currentLang].toast_analysis_loaded, 'info');
+                } else {
+                    showToast('Failed to load analysis.', 'error');
+                }
+            } catch (error) {
+                showToast('Error loading analysis.', 'error');
+                console.error('Load error:', error);
+            }
+        }
+
+        // ============================================
+        // TOAST NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-custom ${type}`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-start gap-2">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mt-1"></i>
+                    <span>${message}</span>
+                    <button class="btn-close btn-close-white btn-sm ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.getElementById('urlInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                analyzeContent();
+            }
+        });
+
+        document.getElementById('textInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                analyzeContent();
+            }
+        });
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load language preference
+            loadLanguagePreference();
+            
+            // Load history after a delay
+            setTimeout(loadHistory, 2000);
+        });
+    </script>
+</body>
+</html>

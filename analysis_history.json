@@ -1,0 +1,743 @@
+[
+  {
+    "id": "b767f8d0",
+    "timestamp": "2026-07-05T15:07:23.629760",
+    "analysis_type": "text",
+    "content": "bonjour",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "6fdd1bd2",
+    "timestamp": "2026-07-05T15:08:43.928965",
+    "analysis_type": "url",
+    "content": "http/195.25.5.2",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "48c139e0",
+    "timestamp": "2026-07-05T15:08:50.489283",
+    "analysis_type": "url",
+    "content": "http/195.25.5.2",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "d23e1949",
+    "timestamp": "2026-07-05T15:08:59.946803",
+    "analysis_type": "text",
+    "content": "From: support@paypal-secure.com\nSubject: URGENT: Your Account Has Been Limited\n\nDear Valued Customer,\n\nWe have detected suspicious activity on your PayPal account. To prevent unauthorized access, we have temporarily limited your account.\n\nPlease verify your identity immediately by clicking the link below:\nhttps://paypal.verify-account-security.com/confirm\n\nFailure to verify within 24 hours will result in permanent account suspension.\n\nThank you for your cooperation,\nPayPal Security Team",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [
+      {
+        "type": "urgency",
+        "description": "Urgent language detected that may pressure you to act quickly",
+        "severity": "medium"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Contains links that may lead to malicious websites",
+        "severity": "medium"
+      },
+      {
+        "type": "grammar",
+        "description": "Unusual grammar or spelling errors that may indicate phishing",
+        "severity": "low"
+      }
+    ],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "85e97422",
+    "timestamp": "2026-07-05T15:09:45.259431",
+    "analysis_type": "text",
+    "content": "jjkllmll lmlm",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "5e680e6c",
+    "timestamp": "2026-07-05T15:29:34.431001",
+    "analysis_type": "text",
+    "content": "kjjkjbhjbhjbhjbhjb",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "AI analysis was unavailable. Please check your API configuration.",
+    "indicators": [],
+    "recommendations": [
+      "Verify the sender's identity before sharing sensitive information.",
+      "Check for spelling and grammatical errors.",
+      "Be cautious of urgent requests for personal information.",
+      "Hover over links to see the actual URL before clicking.",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "AI analysis was unavailable. Please check your API configuration.",
+      "indicators": [],
+      "security_recommendations": [
+        "Verify the sender's identity before sharing sensitive information.",
+        "Check for spelling and grammatical errors.",
+        "Be cautious of urgent requests for personal information.",
+        "Hover over links to see the actual URL before clicking.",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated"
+      ]
+    }
+  },
+  {
+    "id": "a450f3d1",
+    "timestamp": "2026-07-05T15:32:41.732433",
+    "analysis_type": "text",
+    "content": "nbnnbnbnbn",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+    "indicators": [],
+    "recommendations": [
+      "\u2705 Content appears safe, but always practice good security habits",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+      "indicators": [],
+      "security_recommendations": [
+        "\u2705 Content appears safe, but always practice good security habits",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "6d144108",
+    "timestamp": "2026-07-05T15:33:10.288722",
+    "analysis_type": "text",
+    "content": "bonjour",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+    "indicators": [],
+    "recommendations": [
+      "\u2705 Content appears safe, but always practice good security habits",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+      "indicators": [],
+      "security_recommendations": [
+        "\u2705 Content appears safe, but always practice good security habits",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "d6caa8f5",
+    "timestamp": "2026-07-05T15:36:03.592694",
+    "analysis_type": "text",
+    "content": "From: service@paypal-secure-verify.com\nSubject: URGENT: Compte PayPal Bloqu\u00e9\n\nCher client PayPal,\n\nNous avons d\u00e9tect\u00e9 des activit\u00e9s suspectes sur votre compte. Pour des raisons de s\u00e9curit\u00e9, votre compte a \u00e9t\u00e9 temporairement limit\u00e9.\n\nVeuillez cliquer sur le lien ci-dessous pour v\u00e9rifier votre identit\u00e9 dans les 24 heures :\nhttps://paypal-securite-verification.xyz/confirm\n\nSi vous ne confirmez pas votre identit\u00e9, votre compte sera d\u00e9finitivement suspendu.\n\nCordialement,\nL'\u00e9quipe PayPal Security",
+    "risk_score": 96,
+    "threat_level": "Critical",
+    "explanation": "\u26a0\ufe0f This content exhibits several phishing characteristics:\n- Urgency language detected (1 phrases)\n- Requests for credentials or personal information (2 phrases)\n- Suspicious URLs detected (1 found)\n- Impersonation of known companies detected (1 mentions)\n\nThe content has been flagged as potentially dangerous (Risk Score: 41/100).",
+    "indicators": [
+      {
+        "type": "urgency",
+        "description": "Urgency language detected (1 phrases)",
+        "severity": "low"
+      },
+      {
+        "type": "credential_request",
+        "description": "Requests for credentials or personal information (2 phrases)",
+        "severity": "medium"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Suspicious URLs detected (1 found)",
+        "severity": "high"
+      },
+      {
+        "type": "impersonation",
+        "description": "Impersonation of known companies detected (1 mentions)",
+        "severity": "high"
+      },
+      {
+        "type": "urgency",
+        "description": "Urgent language detected that may pressure you to act quickly",
+        "severity": "medium"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Contains links that may lead to malicious websites",
+        "severity": "medium"
+      }
+    ],
+    "recommendations": [
+      "\u26a0\ufe0f Exercise extreme caution when interacting with this content",
+      "\ud83d\udd0d Verify the sender's identity through a separate channel",
+      "\ud83d\udce7 Do not share any personal information",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83d\udea8 Do not interact with this message or click any links",
+      "\ud83d\udd12 Report this as phishing to your email provider",
+      "\ud83d\udd04 Change your passwords if you have interacted with this content"
+    ],
+    "full_analysis": {
+      "is_phishing": true,
+      "risk_score": 41,
+      "explanation": "\u26a0\ufe0f This content exhibits several phishing characteristics:\n- Urgency language detected (1 phrases)\n- Requests for credentials or personal information (2 phrases)\n- Suspicious URLs detected (1 found)\n- Impersonation of known companies detected (1 mentions)\n\nThe content has been flagged as potentially dangerous (Risk Score: 41/100).",
+      "indicators": [
+        {
+          "type": "urgency",
+          "description": "Urgency language detected (1 phrases)",
+          "severity": "low"
+        },
+        {
+          "type": "credential_request",
+          "description": "Requests for credentials or personal information (2 phrases)",
+          "severity": "medium"
+        },
+        {
+          "type": "suspicious_links",
+          "description": "Suspicious URLs detected (1 found)",
+          "severity": "high"
+        },
+        {
+          "type": "impersonation",
+          "description": "Impersonation of known companies detected (1 mentions)",
+          "severity": "high"
+        }
+      ],
+      "security_recommendations": [
+        "\u26a0\ufe0f Exercise extreme caution when interacting with this content",
+        "\ud83d\udd0d Verify the sender's identity through a separate channel",
+        "\ud83d\udce7 Do not share any personal information",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83d\udea8 Do not interact with this message or click any links",
+        "\ud83d\udd12 Report this as phishing to your email provider",
+        "\ud83d\udd04 Change your passwords if you have interacted with this content",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "50d6610b",
+    "timestamp": "2026-07-05T15:36:32.469420",
+    "analysis_type": "text",
+    "content": "From: securite@credit-agricole-france.com\nSubject: ALERTE DE SECURITE - Mouvement inhabituel\n\nBonjour,\n\nUn transfert de 2,500\u20ac a \u00e9t\u00e9 initi\u00e9 depuis votre compte sans votre autorisation.\n\nPour annuler cette transaction, connectez-vous imm\u00e9diatement :\nhttps://credit-agricole-verification.secure-account.com/urgent\n\nNe r\u00e9pondez pas \u00e0 cet email. Utilisez le lien ci-dessus.\n\nService S\u00e9curit\u00e9 CREDIT AGRICOLE",
+    "risk_score": 58,
+    "threat_level": "High",
+    "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Urgency language detected (1 phrases)\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n\nProceed with caution (Risk Score: 23/100).",
+    "indicators": [
+      {
+        "type": "urgency",
+        "description": "Urgency language detected (1 phrases)",
+        "severity": "low"
+      },
+      {
+        "type": "credential_request",
+        "description": "Requests for credentials or personal information (1 phrases)",
+        "severity": "medium"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Suspicious URLs detected (1 found)",
+        "severity": "high"
+      },
+      {
+        "type": "urgency",
+        "description": "Urgent language detected that may pressure you to act quickly",
+        "severity": "medium"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Contains links that may lead to malicious websites",
+        "severity": "medium"
+      }
+    ],
+    "recommendations": [
+      "\ud83d\udccb Be cautious and verify any requested information",
+      "\ud83d\udd17 Hover over links to check the actual URL",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udea8 Do not interact with this message or click any links",
+      "\ud83d\udd12 Report this as phishing to your email provider",
+      "\ud83d\udd04 Change your passwords if you have interacted with this content"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 23,
+      "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Urgency language detected (1 phrases)\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n\nProceed with caution (Risk Score: 23/100).",
+      "indicators": [
+        {
+          "type": "urgency",
+          "description": "Urgency language detected (1 phrases)",
+          "severity": "low"
+        },
+        {
+          "type": "credential_request",
+          "description": "Requests for credentials or personal information (1 phrases)",
+          "severity": "medium"
+        },
+        {
+          "type": "suspicious_links",
+          "description": "Suspicious URLs detected (1 found)",
+          "severity": "high"
+        }
+      ],
+      "security_recommendations": [
+        "\ud83d\udccb Be cautious and verify any requested information",
+        "\ud83d\udd17 Hover over links to check the actual URL",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udea8 Do not interact with this message or click any links",
+        "\ud83d\udd12 Report this as phishing to your email provider",
+        "\ud83d\udd04 Change your passwords if you have interacted with this content",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "e18e9a69",
+    "timestamp": "2026-07-05T15:36:45.688684",
+    "analysis_type": "url",
+    "content": "https://secure-netflix-verify.com/update-billing",
+    "risk_score": 78,
+    "threat_level": "Critical",
+    "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n- Impersonation of known companies detected (1 mentions)\n\nProceed with caution (Risk Score: 28/100).",
+    "indicators": [
+      {
+        "type": "credential_request",
+        "description": "Requests for credentials or personal information (1 phrases)",
+        "severity": "medium"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Suspicious URLs detected (1 found)",
+        "severity": "high"
+      },
+      {
+        "type": "impersonation",
+        "description": "Impersonation of known companies detected (1 mentions)",
+        "severity": "high"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Contains links that may lead to malicious websites",
+        "severity": "medium"
+      }
+    ],
+    "recommendations": [
+      "\ud83d\udccb Be cautious and verify any requested information",
+      "\ud83d\udd17 Hover over links to check the actual URL",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udea8 Do not interact with this message or click any links",
+      "\ud83d\udd12 Report this as phishing to your email provider",
+      "\ud83d\udd04 Change your passwords if you have interacted with this content"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 28,
+      "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n- Impersonation of known companies detected (1 mentions)\n\nProceed with caution (Risk Score: 28/100).",
+      "indicators": [
+        {
+          "type": "credential_request",
+          "description": "Requests for credentials or personal information (1 phrases)",
+          "severity": "medium"
+        },
+        {
+          "type": "suspicious_links",
+          "description": "Suspicious URLs detected (1 found)",
+          "severity": "high"
+        },
+        {
+          "type": "impersonation",
+          "description": "Impersonation of known companies detected (1 mentions)",
+          "severity": "high"
+        }
+      ],
+      "security_recommendations": [
+        "\ud83d\udccb Be cautious and verify any requested information",
+        "\ud83d\udd17 Hover over links to check the actual URL",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udea8 Do not interact with this message or click any links",
+        "\ud83d\udd12 Report this as phishing to your email provider",
+        "\ud83d\udd04 Change your passwords if you have interacted with this content",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "b45b312f",
+    "timestamp": "2026-07-05T15:36:55.660274",
+    "analysis_type": "url",
+    "content": "Hello, c'est Julie. Tu as re\u00e7u un message? Clique ici pour voir : https://message-verify.com/voir",
+    "risk_score": 48,
+    "threat_level": "High",
+    "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n\nProceed with caution (Risk Score: 18/100).",
+    "indicators": [
+      {
+        "type": "credential_request",
+        "description": "Requests for credentials or personal information (1 phrases)",
+        "severity": "medium"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Suspicious URLs detected (1 found)",
+        "severity": "high"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "Contains links that may lead to malicious websites",
+        "severity": "medium"
+      }
+    ],
+    "recommendations": [
+      "\u2705 Content appears safe, but always practice good security habits",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udea8 Do not interact with this message or click any links",
+      "\ud83d\udd12 Report this as phishing to your email provider",
+      "\ud83d\udd04 Change your passwords if you have interacted with this content",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 18,
+      "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n- Suspicious URLs detected (1 found)\n\nProceed with caution (Risk Score: 18/100).",
+      "indicators": [
+        {
+          "type": "credential_request",
+          "description": "Requests for credentials or personal information (1 phrases)",
+          "severity": "medium"
+        },
+        {
+          "type": "suspicious_links",
+          "description": "Suspicious URLs detected (1 found)",
+          "severity": "high"
+        }
+      ],
+      "security_recommendations": [
+        "\u2705 Content appears safe, but always practice good security habits",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udea8 Do not interact with this message or click any links",
+        "\ud83d\udd12 Report this as phishing to your email provider",
+        "\ud83d\udd04 Change your passwords if you have interacted with this content",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "ec6a2d8a",
+    "timestamp": "2026-07-05T15:37:05.056657",
+    "analysis_type": "url",
+    "content": "Bonjour,  Je vous \u00e9cris pour vous confirmer notre rendez-vous du 15 juillet \u00e0 14h00.  Bien cordialement, Marie Dupont Responsable Commerciale",
+    "risk_score": 18,
+    "threat_level": "Low",
+    "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n\nProceed with caution (Risk Score: 8/100).",
+    "indicators": [
+      {
+        "type": "credential_request",
+        "description": "Requests for credentials or personal information (1 phrases)",
+        "severity": "medium"
+      },
+      {
+        "type": "credential_request",
+        "description": "Request for sensitive credentials or personal information",
+        "severity": "high"
+      }
+    ],
+    "recommendations": [
+      "\u2705 Content appears safe, but always practice good security habits",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udccb Be cautious and verify any requested information",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 8,
+      "explanation": "\ud83d\udccb The content shows some minor concerns but doesn't appear to be a phishing attempt:\n- Requests for credentials or personal information (1 phrases)\n\nProceed with caution (Risk Score: 8/100).",
+      "indicators": [
+        {
+          "type": "credential_request",
+          "description": "Requests for credentials or personal information (1 phrases)",
+          "severity": "medium"
+        }
+      ],
+      "security_recommendations": [
+        "\u2705 Content appears safe, but always practice good security habits",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udccb Be cautious and verify any requested information",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  },
+  {
+    "id": "ed430d64",
+    "timestamp": "2026-07-05T15:55:04.068968",
+    "analysis_type": "text",
+    "content": "kjkjkjnjnjkn",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+    "indicators": [],
+    "recommendations": [
+      "\u2705 Content appears safe, but always practice good security habits",
+      "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+      "\ud83d\udd17 Always verify links before clicking by hovering over them",
+      "\ud83d\udcf1 Enable two-factor authentication where possible",
+      "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+      "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+      "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+    ],
+    "full_analysis": {
+      "is_phishing": false,
+      "risk_score": 0,
+      "explanation": "No phishing indicators were detected in the content. The message appears to be legitimate.",
+      "indicators": [],
+      "security_recommendations": [
+        "\u2705 Content appears safe, but always practice good security habits",
+        "\ud83d\udce7 Never share sensitive information via email or messaging platforms",
+        "\ud83d\udd17 Always verify links before clicking by hovering over them",
+        "\ud83d\udcf1 Enable two-factor authentication where possible",
+        "\ud83d\udee1\ufe0f Keep your software and antivirus updated",
+        "\ud83e\udd14 Be skeptical of urgent requests for personal information",
+        "\ud83d\udd17 Hover over links to verify the actual URL before clicking"
+      ],
+      "source": "rule-based"
+    }
+  }
+]
