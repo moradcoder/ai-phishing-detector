@@ -1,10 +1,48 @@
 [
   {
-    "id": "id--3881873",
-    "timestamp": "2026-07-06T16:57:45.554750",
+    "id": "id--8747396",
+    "timestamp": "2026-07-06T18:15:53.545090",
     "analysis_type": "text",
-    "content": "hhhhhhhhhh",
-    "content_full": "hhhhhhhhhh",
+    "content": "ssss",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  },
+  {
+    "id": "id-18176753",
+    "timestamp": "2026-07-06T18:15:13.511974",
+    "analysis_type": "text",
+    "content": "mmm",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  },
+  {
+    "id": "id-83453542",
+    "timestamp": "2026-07-06T18:13:58.334621",
+    "analysis_type": "text",
+    "content": "bonjor bancaire",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  },
+  {
+    "id": "id-61229014",
+    "timestamp": "2026-07-06T18:13:35.053934",
+    "analysis_type": "text",
+    "content": "jjj",
     "risk_score": 0,
     "threat_level": "Safe",
     "explanation": "✅ Aucun indicateur de phishing détecté.",
