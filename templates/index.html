@@ -1,6 +1,6 @@
-<!-- templates/index.html (Updated with Language Selector) -->
+<!-- templates/index.html -->
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Custom CSS */
+        /* ============================================
+                   CSS GLOBAL
+                ============================================ */
         :root {
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.12);
@@ -28,6 +30,9 @@
             --accent-pink: #ec4899;
             --gradient-start: #1a1a2e;
             --gradient-end: #16213e;
+            --bg-danger: #dc3545;
+            --bg-success: #198754;
+            --bg-warning: #ffc107;
         }
 
         [data-bs-theme="light"] {
@@ -54,16 +59,14 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* Arabic font support */
+        /* Support RTL pour l'arabe */
         body[dir="rtl"] {
             font-family: 'Cairo', 'Inter', -apple-system, sans-serif;
         }
 
-        .lang-ar body {
-            font-family: 'Cairo', 'Inter', sans-serif;
-        }
-
-        /* Glassmorphism */
+        /* ============================================
+                   GLASSMORPHISM
+                ============================================ */
         .glass {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
@@ -89,7 +92,9 @@
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
         }
 
-        /* Navbar */
+        /* ============================================
+                   NAVBAR
+                ============================================ */
         .navbar {
             background: rgba(0, 0, 0, 0.3) !important;
             backdrop-filter: blur(20px);
@@ -106,7 +111,9 @@
             background-clip: text;
         }
 
-        /* Language Selector */
+        /* ============================================
+                   SELECTEUR DE LANGUE
+                ============================================ */
         .lang-selector {
             display: flex;
             gap: 4px;
@@ -137,17 +144,9 @@
             background: var(--accent-blue);
         }
 
-        [data-bs-theme="light"] .lang-btn.active {
-            color: white;
-        }
-
-        /* Main container */
-        .main-container {
-            padding-top: 80px;
-            padding-bottom: 40px;
-        }
-
-        /* Input area */
+        /* ============================================
+                   INPUTS
+                ============================================ */
         .input-area {
             min-height: 150px;
             resize: vertical;
@@ -168,7 +167,9 @@
             color: var(--text-secondary);
         }
 
-        /* Buttons */
+        /* ============================================
+                   BOUTONS
+                ============================================ */
         .btn-primary-gradient {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             border: none;
@@ -182,6 +183,7 @@
         .btn-primary-gradient:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(79, 140, 255, 0.4);
+            color: white;
         }
 
         .btn-primary-gradient:disabled {
@@ -189,7 +191,9 @@
             transform: none;
         }
 
-        /* Result cards */
+        /* ============================================
+                   RESULTATS
+                ============================================ */
         .result-card {
             animation: slideIn 0.5s ease-out;
         }
@@ -205,14 +209,14 @@
             }
         }
 
-        /* Threat level badges */
+        /* Niveaux de menace */
         .threat-safe { background: #00c853; color: white; }
         .threat-low { background: #ffd600; color: #000; }
         .threat-medium { background: #ff9100; color: white; }
         .threat-high { background: #ff1744; color: white; }
         .threat-critical { background: #d50000; color: white; }
 
-        /* Risk score circle */
+        /* Score circulaire */
         .score-circle {
             width: 120px;
             height: 120px;
@@ -248,7 +252,7 @@
             color: #1a1a2e;
         }
 
-        /* Indicators list */
+        /* Indicateurs */
         .indicator-item {
             padding: 8px 12px;
             margin-bottom: 8px;
@@ -269,7 +273,7 @@
         .indicator-item .severity-medium { color: #ff9100; }
         .indicator-item .severity-low { color: #ffd600; }
 
-        /* Recommendations */
+        /* Recommandations */
         .recommendation-item {
             padding: 10px 14px;
             margin-bottom: 8px;
@@ -278,7 +282,39 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Loading animation */
+        /* ============================================
+                   HISTORIQUE
+                ============================================ */
+        .history-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--glass-border);
+        }
+
+        .history-item .clickable {
+            cursor: pointer;
+        }
+
+        .history-item .btn-delete {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .history-item:hover .btn-delete {
+            opacity: 1;
+        }
+
+        /* ============================================
+                   CHARGEMENT
+                ============================================ */
         .loading-spinner {
             display: none;
             text-align: center;
@@ -291,59 +327,9 @@
             margin: 0 10px;
         }
 
-        /* History */
-        .history-item {
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .history-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--glass-border);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .glass-card {
-                padding: 1rem;
-            }
-            .score-circle {
-                width: 100px;
-                height: 100px;
-                font-size: 2rem;
-            }
-            .score-circle-inner {
-                width: 75px;
-                height: 75px;
-                font-size: 1.5rem;
-            }
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-            .lang-btn {
-                padding: 2px 8px;
-                font-size: 0.7rem;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--glass-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 4px;
-        }
-
-        /* Toast notifications */
+        /* ============================================
+                   TOASTS
+                ============================================ */
         .toast-container {
             position: fixed;
             top: 80px;
@@ -377,12 +363,58 @@
             border-left: none;
             border-right: 4px solid var(--accent-blue);
         }
-
         [dir="rtl"] .toast-custom.error { border-right: 4px solid #ff1744; }
         [dir="rtl"] .toast-custom.success { border-right: 4px solid #00c853; }
         [dir="rtl"] .toast-custom.info { border-right: 4px solid var(--accent-blue); }
 
-        /* Tab styling */
+        /* ============================================
+                   RESPONSIVE
+                ============================================ */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 1rem;
+            }
+            .score-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            .score-circle-inner {
+                width: 75px;
+                height: 75px;
+                font-size: 1.5rem;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            .lang-btn {
+                padding: 2px 8px;
+                font-size: 0.7rem;
+            }
+            .toast-custom {
+                min-width: 200px;
+                max-width: 350px;
+                padding: 12px 16px;
+            }
+        }
+
+        /* ============================================
+                   SCROLLBAR
+                ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--glass-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        /* ============================================
+                   TABS
+                ============================================ */
         .nav-tabs .nav-link {
             color: var(--text-secondary);
             border: none;
@@ -403,7 +435,9 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* File upload styling */
+        /* ============================================
+                   FILE UPLOAD
+                ============================================ */
         .file-drop-zone {
             border: 2px dashed var(--glass-border);
             border-radius: 12px;
@@ -423,7 +457,9 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* RTL specific adjustments */
+        /* ============================================
+                   RTL SPECIFIC
+                ============================================ */
         [dir="rtl"] .ms-auto {
             margin-right: auto !important;
             margin-left: 0 !important;
@@ -432,11 +468,6 @@
         [dir="rtl"] .me-2 {
             margin-right: 0 !important;
             margin-left: 0.5rem !important;
-        }
-
-        [dir="rtl"] .me-3 {
-            margin-right: 0 !important;
-            margin-left: 1rem !important;
         }
 
         [dir="rtl"] .ms-2 {
@@ -454,18 +485,21 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- ============================================
+    NAVBAR
+    ============================================ -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-shield-halved me-2"></i><span data-i18n="app_name">AI Phishing Detector</span>
+                <i class="fas fa-shield-halved me-2"></i>
+                <span data-i18n="app_name">AI Phishing Detector</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
-                    <!-- Language Selector -->
+                    <!-- Sélecteur de langue -->
                     <li class="nav-item">
                         <div class="lang-selector">
                             <button class="lang-btn" data-lang="ar" onclick="changeLanguage('ar')">العربية</button>
@@ -473,14 +507,18 @@
                             <button class="lang-btn active" data-lang="en" onclick="changeLanguage('en')">EN</button>
                         </div>
                     </li>
+                    <!-- Thème -->
                     <li class="nav-item">
                         <button class="btn btn-sm btn-outline-light" onclick="toggleTheme()">
                             <i class="fas fa-moon" id="themeIcon"></i>
                         </button>
                     </li>
+                    <!-- Historique -->
                     <li class="nav-item">
                         <button class="btn btn-sm btn-outline-light" onclick="loadHistory()">
-                            <i class="fas fa-history"></i> <span data-i18n="history">History</span>
+                            <i class="fas fa-history"></i>
+                            <span data-i18n="history">History</span>
+                            <span class="badge bg-primary ms-1" id="navHistoryCount">0</span>
                         </button>
                     </li>
                 </ul>
@@ -488,19 +526,26 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
     <div class="container main-container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <!-- Header -->
+                <!-- HEADER -->
                 <div class="text-center mb-5">
                     <h1 class="display-4 fw-bold">
-                        <i class="fas fa-robot text-primary me-3"></i><span data-i18n="app_name">AI Phishing Detector</span>
+                        <i class="fas fa-robot text-primary me-3"></i>
+                        <span data-i18n="app_name">AI Phishing Detector</span>
                     </h1>
-                    <p class="lead text-secondary" data-i18n="subtitle">Analyze emails, messages, and URLs for phishing threats</p>
+                    <p class="lead text-secondary" data-i18n="subtitle">
+                        Analysez les emails, SMS, et URLs pour détecter les tentatives de phishing
+                    </p>
                 </div>
 
-                <!-- Input Section -->
+                <!-- ============================================
+                INPUT SECTION
+                ============================================ -->
                 <div class="glass-card mb-4">
                     <ul class="nav nav-tabs mb-3" id="analysisTabs" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -523,12 +568,12 @@
                     <div class="tab-content">
                         <!-- Text Tab -->
                         <div class="tab-pane fade show active" id="text-content" role="tabpanel">
-                            <textarea class="form-control input-area" id="textInput" rows="6" data-i18n-placeholder="text_placeholder" placeholder="Paste email, SMS, or WhatsApp message here..."></textarea>
+                            <textarea class="form-control input-area" id="textInput" rows="6" data-i18n-placeholder="text_placeholder" placeholder="Collez un email, SMS ou message WhatsApp ici..."></textarea>
                         </div>
                         <!-- URL Tab -->
                         <div class="tab-pane fade" id="url-content" role="tabpanel">
-                            <input type="text" class="form-control input-area" id="urlInput" data-i18n-placeholder="url_placeholder" placeholder="Enter URL to analyze (e.g., https://example.com)" style="height: 60px;">
-                            <small class="text-secondary mt-2 d-block" data-i18n="url_example">Example: https://www.paypal.com.verify-account.com</small>
+                            <input type="text" class="form-control input-area" id="urlInput" data-i18n-placeholder="url_placeholder" placeholder="Entrez une URL à analyser (ex: https://exemple.com)" style="height: 60px;">
+                            <small class="text-secondary mt-2 d-block" data-i18n="url_example">Exemple: https://www.paypal.com.verify-account.com</small>
                         </div>
                         <!-- File Tab -->
                         <div class="tab-pane fade" id="file-content" role="tabpanel">
@@ -563,7 +608,9 @@
                     </div>
                 </div>
 
-                <!-- Loading Animation -->
+                <!-- ============================================
+                LOADING
+                ============================================ -->
                 <div class="loading-spinner" id="loadingSpinner">
                     <div class="spinner-grow text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -574,10 +621,12 @@
                     <div class="spinner-grow text-pink" role="status" style="animation-delay: 0.4s;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <p class="mt-3 text-secondary" data-i18n="loading_text">AI is analyzing your content...</p>
+                    <p class="mt-3 text-secondary" data-i18n="loading_text">L'IA analyse votre contenu...</p>
                 </div>
 
-                <!-- Results Section -->
+                <!-- ============================================
+                RESULTS SECTION
+                ============================================ -->
                 <div id="resultsSection" style="display: none;">
                     <div class="row g-4 mt-2">
                         <!-- Risk Score & Threat Level -->
@@ -597,7 +646,7 @@
                         <div class="col-md-8">
                             <div class="glass-card h-100">
                                 <h6 class="text-secondary mb-2"><i class="fas fa-brain me-2"></i><span data-i18n="ai_explanation">AI Explanation</span></h6>
-                                <p id="explanationText" class="mb-0" style="line-height: 1.6;">Analysis explanation will appear here.</p>
+                                <p id="explanationText" class="mb-0" style="line-height: 1.6; white-space: pre-wrap;">Analysis explanation will appear here.</p>
                             </div>
                         </div>
 
@@ -638,14 +687,25 @@
                     </div>
                 </div>
 
-                <!-- History Section -->
+                <!-- ============================================
+                HISTORY SECTION
+                ============================================ -->
                 <div class="mt-5" id="historySection" style="display: none;">
                     <div class="glass-card">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0"><i class="fas fa-clock-rotate me-2"></i><span data-i18n="history_title">Analysis History</span></h5>
-                            <button class="btn btn-sm btn-outline-light" onclick="loadHistory()">
-                                <i class="fas fa-refresh"></i>
-                            </button>
+                            <h5 class="mb-0">
+                                <i class="fas fa-clock-rotate me-2"></i>
+                                <span data-i18n="history_title">Analysis History</span>
+                                <span class="badge bg-primary ms-2" id="historyCount">0</span>
+                            </h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-danger me-2" onclick="clearAllHistory()" id="clearHistoryBtn">
+                                    <i class="fas fa-trash me-1"></i> <span data-i18n="clear_all">Clear All</span>
+                                </button>
+                                <button class="btn btn-sm btn-outline-light" onclick="loadHistory()">
+                                    <i class="fas fa-refresh"></i>
+                                </button>
+                            </div>
                         </div>
                         <div id="historyList">
                             <p class="text-secondary text-center" data-i18n="no_history">No history available.</p>
@@ -656,16 +716,22 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
+    <!-- ============================================
+    TOASTS
+    ============================================ -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Bootstrap JS -->
+    <!-- ============================================
+    BOOTSTRAP JS
+    ============================================ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
     <script>
         // ============================================
-        // TRANSLATIONS
+        // TRADUCTIONS
         // ============================================
         const translations = {
             en: {
@@ -696,6 +762,7 @@
                 history_title: "Analysis History",
                 no_history: "No history available.",
                 history: "History",
+                clear_all: "Clear All",
                 // Toast messages
                 toast_file_loaded: "File loaded successfully!",
                 toast_sample_loaded: "Sample phishing email loaded!",
@@ -709,6 +776,10 @@
                 toast_pdf_failed: "Failed to generate PDF.",
                 toast_history_failed: "Failed to load history.",
                 toast_analysis_loaded: "Analysis loaded from history.",
+                toast_deleted: "Analysis deleted successfully.",
+                toast_cleared: "History cleared successfully.",
+                delete_confirm: "Are you sure you want to delete this analysis?",
+                clear_confirm: "⚠️ Are you sure you want to delete ALL history? This action is irreversible.",
                 // Threat levels
                 threat_safe: "Safe",
                 threat_low: "Low",
@@ -744,6 +815,7 @@
                 history_title: "Historique des Analyses",
                 no_history: "Aucun historique disponible.",
                 history: "Historique",
+                clear_all: "Tout supprimer",
                 toast_file_loaded: "Fichier chargé avec succès !",
                 toast_sample_loaded: "Exemple d'email de phishing chargé !",
                 toast_enter_content: "Veuillez entrer du contenu à analyser.",
@@ -756,6 +828,10 @@
                 toast_pdf_failed: "Échec de la génération du PDF.",
                 toast_history_failed: "Échec du chargement de l'historique.",
                 toast_analysis_loaded: "Analyse chargée depuis l'historique.",
+                toast_deleted: "Analyse supprimée avec succès.",
+                toast_cleared: "Historique vidé avec succès.",
+                delete_confirm: "Voulez-vous vraiment supprimer cette analyse ?",
+                clear_confirm: "⚠️ Voulez-vous vraiment supprimer TOUT l'historique ? Cette action est irréversible.",
                 threat_safe: "Sûr",
                 threat_low: "Faible",
                 threat_medium: "Moyen",
@@ -790,6 +866,7 @@
                 history_title: "سجل التحليلات",
                 no_history: "لا يوجد سجل متاح.",
                 history: "السجل",
+                clear_all: "حذف الكل",
                 toast_file_loaded: "تم تحميل الملف بنجاح!",
                 toast_sample_loaded: "تم تحميل عينة بريد تصيد!",
                 toast_enter_content: "يرجى إدخال محتوى للتحليل.",
@@ -802,6 +879,10 @@
                 toast_pdf_failed: "فشل إنشاء PDF.",
                 toast_history_failed: "فشل تحميل السجل.",
                 toast_analysis_loaded: "تم تحميل التحليل من السجل.",
+                toast_deleted: "تم حذف التحليل بنجاح.",
+                toast_cleared: "تم مسح السجل بنجاح.",
+                delete_confirm: "هل أنت متأكد من حذف هذا التحليل؟",
+                clear_confirm: "⚠️ هل أنت متأكد من حذف كل السجل؟ هذا الإجراء لا يمكن التراجع عنه.",
                 threat_safe: "آمن",
                 threat_low: "منخفض",
                 threat_medium: "متوسط",
@@ -810,15 +891,16 @@
             }
         };
 
-        let currentLang = 'en';
+        let currentLang = 'fr';
+        let uploadedFileContent = null;
+        let currentAnalysis = null;
 
         // ============================================
-        // LANGUAGE FUNCTIONS
+        // LANGUE
         // ============================================
         function changeLanguage(lang) {
             currentLang = lang;
             
-            // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.lang === lang) {
@@ -826,21 +908,16 @@
                 }
             });
 
-            // Update RTL/LTR
             if (lang === 'ar') {
-                document.body.parentElement.setAttribute('dir', 'rtl');
-                document.body.parentElement.classList.add('lang-ar');
+                document.documentElement.setAttribute('dir', 'rtl');
                 document.body.classList.add('lang-ar');
             } else {
-                document.body.parentElement.setAttribute('dir', 'ltr');
-                document.body.parentElement.classList.remove('lang-ar');
+                document.documentElement.setAttribute('dir', 'ltr');
                 document.body.classList.remove('lang-ar');
             }
 
-            // Translate all elements
             translatePage(lang);
             
-            // Update placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.dataset.i18nPlaceholder;
                 if (translations[lang] && translations[lang][key]) {
@@ -848,24 +925,10 @@
                 }
             });
 
-            // Update threat badge if visible
-            const threatBadge = document.getElementById('threatBadge');
-            if (threatBadge && threatBadge.textContent) {
-                const threatKey = threatBadge.textContent.toLowerCase();
-                const threatMap = {
-                    'safe': 'threat_safe',
-                    'low': 'threat_low',
-                    'medium': 'threat_medium',
-                    'high': 'threat_high',
-                    'critical': 'threat_critical'
-                };
-                if (threatMap[threatKey] && translations[lang] && translations[lang][threatMap[threatKey]]) {
-                    threatBadge.textContent = translations[lang][threatMap[threatKey]];
-                }
-            }
-
-            // Save language preference
             localStorage.setItem('preferred_lang', lang);
+            
+            // Recharger l'historique pour mettre à jour les traductions
+            loadHistory();
         }
 
         function translatePage(lang) {
@@ -877,16 +940,8 @@
             });
         }
 
-        // Load saved language preference
-        function loadLanguagePreference() {
-            const savedLang = localStorage.getItem('preferred_lang');
-            if (savedLang && translations[savedLang]) {
-                changeLanguage(savedLang);
-            }
-        }
-
         // ============================================
-        // THEME FUNCTIONS
+        // THEME
         // ============================================
         function toggleTheme() {
             const html = document.documentElement;
@@ -894,21 +949,12 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-bs-theme', newTheme);
             
-            const icon = document.getElementById('themeIcon');
-            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-            
+            document.getElementById('themeIcon').className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
             localStorage.setItem('theme', newTheme);
         }
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-bs-theme', savedTheme);
-        if (savedTheme === 'light') {
-            document.getElementById('themeIcon').className = 'fas fa-sun';
-        }
-
         // ============================================
-        // FILE UPLOAD FUNCTIONS
+        // FILE UPLOAD
         // ============================================
         const fileDropZone = document.getElementById('fileDropZone');
         const fileInput = document.getElementById('fileInput');
@@ -935,8 +981,6 @@
             }
         });
 
-        let uploadedFileContent = null;
-
         function handleFile(file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -956,7 +1000,7 @@
         }
 
         // ============================================
-        // SAMPLE DATA
+        // SAMPLE
         // ============================================
         function loadSample() {
             const sample = `From: support@paypal-secure.com
@@ -975,9 +1019,7 @@
         PayPal Security Team`;
 
             document.getElementById('textInput').value = sample;
-            // Switch to text tab
-            const textTab = document.querySelector('[data-bs-target="#text-content"]');
-            new bootstrap.Tab(textTab).show();
+            document.querySelector('[data-bs-target="#text-content"]').click();
             showToast(translations[currentLang].toast_sample_loaded, 'info');
         }
 
@@ -986,18 +1028,16 @@
             document.getElementById('urlInput').value = '';
             clearFile();
             document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('historySection').style.display = 'none';
         }
 
         // ============================================
-        // MAIN ANALYSIS FUNCTION
+        // ANALYSE
         // ============================================
         async function analyzeContent() {
             const analyzeBtn = document.getElementById('analyzeBtn');
             const loadingSpinner = document.getElementById('loadingSpinner');
             const resultsSection = document.getElementById('resultsSection');
 
-            // Get active tab content
             const activeTab = document.querySelector('.nav-tabs .nav-link.active');
             let type = 'text';
             let content = '';
@@ -1023,7 +1063,6 @@
                 return;
             }
 
-            // Show loading
             analyzeBtn.disabled = true;
             loadingSpinner.style.display = 'block';
             resultsSection.style.display = 'none';
@@ -1031,13 +1070,8 @@
             try {
                 const response = await fetch('/api/analyze', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        type: type,
-                        content: content,
-                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, content }),
                 });
 
                 const data = await response.json();
@@ -1045,6 +1079,8 @@
                 if (response.ok) {
                     displayResults(data);
                     showToast(translations[currentLang].toast_analysis_complete, 'success');
+                    // Recharger l'historique après une nouvelle analyse
+                    setTimeout(loadHistory, 500);
                 } else {
                     showToast(data.error || translations[currentLang].toast_analysis_failed, 'error');
                 }
@@ -1058,44 +1094,38 @@
         }
 
         // ============================================
-        // DISPLAY RESULTS
+        // AFFICHAGE DES RESULTATS
         // ============================================
         function displayResults(data) {
             const resultsSection = document.getElementById('resultsSection');
             resultsSection.style.display = 'block';
 
-            // Risk Score
             const score = data.risk_score || 0;
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            const scoreCircle = document.getElementById('scoreCircle');
-            scoreDisplay.textContent = score;
-            scoreCircle.style.setProperty('--score-percent', `${score}%`);
+            document.getElementById('scoreDisplay').textContent = score;
+            document.getElementById('scoreCircle').style.setProperty('--score-percent', `${score}%`);
 
-            // Threat Level
             const threatLevel = data.threat_level || 'Safe';
             const threatBadge = document.getElementById('threatBadge');
             const threatKey = threatLevel.toLowerCase();
             const threatMap = {
-                'safe': 'threat_safe',
-                'low': 'threat_low',
-                'medium': 'threat_medium',
-                'high': 'threat_high',
-                'critical': 'threat_critical'
+                'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+                'high': 'threat_high', 'critical': 'threat_critical'
             };
             
-            // Translate threat level
             let translatedThreat = threatLevel;
-            if (threatMap[threatKey] && translations[currentLang] && translations[currentLang][threatMap[threatKey]]) {
-                translatedThreat = translations[currentLang][threatMap[threatKey]];
+            const threatTransMap = {
+                'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+                'high': 'threat_high', 'critical': 'threat_critical'
+            };
+            if (threatTransMap[threatKey] && translations[currentLang] && translations[currentLang][threatTransMap[threatKey]]) {
+                translatedThreat = translations[currentLang][threatTransMap[threatKey]];
             }
             
             threatBadge.textContent = translatedThreat;
             threatBadge.className = `badge threat-${threatKey}`;
 
-            // Explanation
             document.getElementById('explanationText').textContent = data.explanation || 'No explanation provided.';
 
-            // Indicators
             const indicatorsList = document.getElementById('indicatorsList');
             if (data.indicators && data.indicators.length > 0) {
                 indicatorsList.innerHTML = data.indicators.map(ind => `
@@ -1110,7 +1140,6 @@
                 indicatorsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_indicators}</p>`;
             }
 
-            // Recommendations
             const recommendationsList = document.getElementById('recommendationsList');
             if (data.recommendations && data.recommendations.length > 0) {
                 recommendationsList.innerHTML = data.recommendations.map(rec => `
@@ -1122,19 +1151,15 @@
                 recommendationsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_recommendations}</p>`;
             }
 
-            // Analysis ID
-            document.getElementById('analysisId').innerHTML = `<span data-i18n="id_label">${translations[currentLang].id_label}</span>: ${data.id || 'N/A'}`;
-
-            // Store current analysis for export
-            window.currentAnalysis = data;
+            document.getElementById('analysisId').innerHTML = `${translations[currentLang].id_label}: ${data.id || 'N/A'}`;
+            currentAnalysis = data;
         }
 
         // ============================================
         // COPY REPORT
         // ============================================
         function copyReport() {
-            const data = window.currentAnalysis;
-            if (!data) {
+            if (!currentAnalysis) {
                 showToast('No analysis to copy.', 'error');
                 return;
             }
@@ -1142,25 +1167,24 @@
             const report = `
         AI Phishing Detector Report
         ============================
-        ID: ${data.id || 'N/A'}
-        Date: ${data.timestamp || 'N/A'}
-        Risk Score: ${data.risk_score || 0}/100
-        Threat Level: ${data.threat_level || 'Safe'}
+        ID: ${currentAnalysis.id || 'N/A'}
+        Date: ${currentAnalysis.timestamp || 'N/A'}
+        Risk Score: ${currentAnalysis.risk_score || 0}/100
+        Threat Level: ${currentAnalysis.threat_level || 'Safe'}
 
         Explanation:
-        ${data.explanation || 'No explanation provided.'}
+        ${currentAnalysis.explanation || 'No explanation provided.'}
 
         Indicators:
-        ${data.indicators?.map(i => `- ${i.description} (${i.severity})`).join('\n') || 'No indicators detected.'}
+        ${currentAnalysis.indicators?.map(i => `- ${i.description} (${i.severity})`).join('\n') || 'No indicators detected.'}
 
         Recommendations:
-        ${data.recommendations?.map(r => `- ${r}`).join('\n') || 'No recommendations available.'}
+        ${currentAnalysis.recommendations?.map(r => `- ${r}`).join('\n') || 'No recommendations available.'}
         `;
 
             navigator.clipboard.writeText(report).then(() => {
                 showToast(translations[currentLang].toast_copied, 'success');
             }).catch(() => {
-                // Fallback
                 const textarea = document.createElement('textarea');
                 textarea.value = report;
                 document.body.appendChild(textarea);
@@ -1175,8 +1199,7 @@
         // EXPORT PDF
         // ============================================
         async function exportPDF() {
-            const data = window.currentAnalysis;
-            if (!data) {
+            if (!currentAnalysis) {
                 showToast('No analysis to export.', 'error');
                 return;
             }
@@ -1186,13 +1209,13 @@
             exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating...';
 
             try {
-                const response = await fetch(`/api/report/${data.id}`);
+                const response = await fetch(`/api/report/${currentAnalysis.id}`);
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `phishing_report_${data.id}.pdf`;
+                    a.download = `phishing_report_${currentAnalysis.id}.pdf`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
@@ -1211,47 +1234,77 @@
         }
 
         // ============================================
-        // LOAD HISTORY
+        // HISTORIQUE
         // ============================================
         async function loadHistory() {
             const historySection = document.getElementById('historySection');
             const historyList = document.getElementById('historyList');
 
             try {
-                const response = await fetch('/api/history?limit=20');
+                const response = await fetch('/api/history?limit=50');
                 const data = await response.json();
 
                 if (response.ok && data.history && data.history.length > 0) {
-                    historyList.innerHTML = data.history.map(item => {
+                    document.getElementById('historyCount').textContent = data.history.length;
+                    document.getElementById('navHistoryCount').textContent = data.history.length;
+                    
+                    historyList.innerHTML = data.history.map((item) => {
                         const threatKey = (item.threat_level || 'Safe').toLowerCase();
                         const threatMap = {
-                            'safe': 'threat_safe',
-                            'low': 'threat_low',
-                            'medium': 'threat_medium',
-                            'high': 'threat_high',
-                            'critical': 'threat_critical'
+                            'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+                            'high': 'threat_high', 'critical': 'threat_critical'
                         };
                         let translatedThreat = item.threat_level || 'Safe';
-                        if (threatMap[threatKey] && translations[currentLang] && translations[currentLang][threatMap[threatKey]]) {
-                            translatedThreat = translations[currentLang][threatMap[threatKey]];
+                        const threatTransMap = {
+                            'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+                            'high': 'threat_high', 'critical': 'threat_critical'
+                        };
+                        if (threatTransMap[threatKey] && translations[currentLang] && translations[currentLang][threatTransMap[threatKey]]) {
+                            translatedThreat = translations[currentLang][threatTransMap[threatKey]];
                         }
                         
+                        const isPhishing = item.risk_score > 30;
+                        const date = item.timestamp ? new Date(item.timestamp).toLocaleString(
+                            currentLang === 'ar' ? 'ar' : currentLang === 'fr' ? 'fr-FR' : 'en-US',
+                            { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }
+                        ) : 'N/A';
+                        
                         return `
-                            <div class="history-item" onclick="loadAnalysis('${item.id}')">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <span class="badge threat-${threatKey} me-2">${translatedThreat}</span>
-                                        <span class="text-secondary small">${item.timestamp || 'N/A'}</span>
+                            <div class="history-item" id="history-item-${item.id}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1 clickable" onclick="loadAnalysis('${item.id}')">
+                                        <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                            <span class="badge threat-${threatKey}">${translatedThreat}</span>
+                                            <span class="badge ${isPhishing ? 'bg-danger' : 'bg-success'}">
+                                                ${translations[currentLang].risk_score}: ${item.risk_score || 0}
+                                            </span>
+                                            <span class="text-secondary small">${date}</span>
+                                        </div>
+                                        <div class="text-secondary small">
+                                            ${(item.content || 'No content').substring(0, 150)}${(item.content || '').length > 150 ? '...' : ''}
+                                        </div>
+                                        ${item.indicators && item.indicators.length > 0 ? `
+                                            <div class="mt-1">
+                                                ${item.indicators.slice(0, 3).map(ind => 
+                                                    `<span class="badge bg-warning text-dark me-1" style="font-size: 0.6rem;">${ind.type}</span>`
+                                                ).join('')}
+                                                ${item.indicators.length > 3 ? `<span class="badge bg-secondary" style="font-size: 0.6rem;">+${item.indicators.length - 3}</span>` : ''}
+                                            </div>
+                                        ` : ''}
                                     </div>
-                                    <span class="text-secondary small">${translations[currentLang].risk_score}: ${item.risk_score || 0}</span>
+                                    <button class="btn btn-sm btn-outline-danger ms-2 btn-delete" onclick="deleteAnalysis('${item.id}')" title="${translations[currentLang].delete_confirm}">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
-                                <div class="text-secondary small mt-1">${item.content?.substring(0, 100) || 'No content'}...</div>
                             </div>
                         `;
                     }).join('');
+                    
                     historySection.style.display = 'block';
                 } else {
                     historyList.innerHTML = `<p class="text-secondary text-center">${translations[currentLang].no_history}</p>`;
+                    document.getElementById('historyCount').textContent = '0';
+                    document.getElementById('navHistoryCount').textContent = '0';
                     historySection.style.display = 'block';
                 }
             } catch (error) {
@@ -1261,35 +1314,110 @@
         }
 
         // ============================================
-        // LOAD ANALYSIS FROM HISTORY
+        // SUPPRESSION
         // ============================================
-        async function loadAnalysis(id) {
+        async function deleteAnalysis(analysisId) {
+            if (!confirm(translations[currentLang].delete_confirm)) {
+                return;
+            }
+            
             try {
-                const response = await fetch(`/api/history/${id}`);
+                const response = await fetch(`/api/history/${analysisId}`, {
+                    method: 'DELETE'
+                });
+                
                 const data = await response.json();
+                
+                if (response.ok) {
+                    showToast(translations[currentLang].toast_deleted, 'success');
+                    const element = document.getElementById(`history-item-${analysisId}`);
+                    if (element) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            element.remove();
+                            const historyItems = document.querySelectorAll('.history-item');
+                            document.getElementById('historyCount').textContent = historyItems.length;
+                            document.getElementById('navHistoryCount').textContent = historyItems.length;
+                            if (historyItems.length === 0) {
+                                document.getElementById('historyList').innerHTML = 
+                                    `<p class="text-secondary text-center">${translations[currentLang].no_history}</p>`;
+                            }
+                        }, 300);
+                    }
+                } else {
+                    showToast(data.error || 'Erreur lors de la suppression', 'error');
+                }
+            } catch (error) {
+                showToast('Erreur lors de la suppression', 'error');
+                console.error('Delete error:', error);
+            }
+        }
+
+        // ============================================
+        // VIDER L'HISTORIQUE
+        // ============================================
+        async function clearAllHistory() {
+            if (!confirm(translations[currentLang].clear_confirm)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/history/clear', {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast(translations[currentLang].toast_cleared, 'success');
+                    document.getElementById('historyList').innerHTML = 
+                        `<p class="text-secondary text-center">${translations[currentLang].no_history}</p>`;
+                    document.getElementById('historyCount').textContent = '0';
+                    document.getElementById('navHistoryCount').textContent = '0';
+                } else {
+                    showToast(data.error || 'Erreur lors du vidage', 'error');
+                }
+            } catch (error) {
+                showToast('Erreur lors du vidage', 'error');
+                console.error('Clear error:', error);
+            }
+        }
+
+        // ============================================
+        // CHARGER UNE ANALYSE
+        // ============================================
+        async function loadAnalysis(analysisId) {
+            try {
+                const response = await fetch(`/api/history/${analysisId}`);
+                const data = await response.json();
+                
                 if (response.ok) {
                     displayResults(data);
                     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
                     showToast(translations[currentLang].toast_analysis_loaded, 'info');
                 } else {
-                    showToast('Failed to load analysis.', 'error');
+                    showToast('Erreur lors du chargement', 'error');
                 }
             } catch (error) {
-                showToast('Error loading analysis.', 'error');
+                showToast('Erreur lors du chargement', 'error');
                 console.error('Load error:', error);
             }
         }
 
         // ============================================
-        // TOAST NOTIFICATIONS
+        // TOASTS
         // ============================================
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast-custom ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : 
+                         type === 'error' ? 'fa-exclamation-circle' : 
+                         'fa-info-circle';
             toast.innerHTML = `
                 <div class="d-flex align-items-start gap-2">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mt-1"></i>
+                    <i class="fas ${icon} mt-1"></i>
                     <span>${message}</span>
                     <button class="btn-close btn-close-white btn-sm ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
                 </div>
@@ -1320,14 +1448,24 @@
         });
 
         // ============================================
-        // INITIALIZATION
+        // INITIALISATION
         // ============================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Load language preference
-            loadLanguagePreference();
-            
-            // Load history after a delay
-            setTimeout(loadHistory, 2000);
+            // Thème
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            if (savedTheme === 'light') {
+                document.getElementById('themeIcon').className = 'fas fa-sun';
+            }
+
+            // Langue
+            const savedLang = localStorage.getItem('preferred_lang');
+            if (savedLang && translations[savedLang]) {
+                changeLanguage(savedLang);
+            }
+
+            // Historique
+            setTimeout(loadHistory, 1000);
         });
     </script>
 </body>
