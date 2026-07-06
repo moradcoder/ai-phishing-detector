@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "id--3881873",
+    "timestamp": "2026-07-06T16:57:45.554750",
+    "analysis_type": "text",
+    "content": "hhhhhhhhhh",
+    "content_full": "hhhhhhhhhh",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  }
+]

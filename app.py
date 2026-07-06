@@ -1,4 +1,4 @@
-# app.py - Version avec suppression synchronisée
+# app.py - Version complète avec MongoDB Atlas
 import os
 import json
 import re
@@ -7,6 +7,14 @@ from flask import Flask, render_template, request, jsonify, send_file
 from flask_cors import CORS
 from io import BytesIO
 from urllib.parse import urlparse
+from dotenv import load_dotenv
+from pymongo import MongoClient
+from bson import ObjectId
+
+# ============================================
+# CHARGEMENT DES VARIABLES D'ENVIRONNEMENT
+# ============================================
+load_dotenv()
 
 # ============================================
 # IMPORTS REPORTLAB
@@ -21,68 +29,183 @@ try:
     REPORTLAB_AVAILABLE = True
 except ImportError:
     REPORTLAB_AVAILABLE = False
+    print("⚠️ ReportLab non disponible")
 
 # ============================================
-# CONFIGURATION
+# CONFIGURATION FLASK
 # ============================================
 app = Flask(__name__)
 CORS(app)
 
-HISTORY_FILE = 'history.json'
-STATS_FILE = 'stats.json'
-
 # ============================================
-# FONCTIONS HISTORIQUE
+# CONNEXION MONGODB ATLAS
 # ============================================
 
-def load_history():
+MONGODB_URI = os.getenv('MONGODB_URI')
+MONGODB_AVAILABLE = False
+
+if MONGODB_URI:
     try:
-        if os.path.exists(HISTORY_FILE):
-            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+        client = MongoClient(MONGODB_URI)
+        # Tester la connexion
+        client.admin.command('ping')
+        
+        # Choisir la base de données et les collections
+        db = client['phishing_detector']
+        history_collection = db['history']
+        stats_collection = db['stats']
+        
+        MONGODB_AVAILABLE = True
+        print("✅ MongoDB Atlas connecté avec succès !")
+    except Exception as e:
+        print(f"❌ Erreur de connexion MongoDB: {str(e)}")
+        MONGODB_AVAILABLE = False
+else:
+    print("⚠️ MONGODB_URI non trouvé - utilisation des fichiers locaux")
+
+# ============================================
+# FONCTIONS MONGODB
+# ============================================
+
+def save_history_to_mongo(data):
+    """Sauvegarder l'historique dans MongoDB"""
+    if not MONGODB_AVAILABLE:
+        return False
+    try:
+        # Vider la collection existante
+        history_collection.delete_many({})
+        # Insérer les nouvelles données
+        if data:
+            history_collection.insert_many(data)
+        return True
+    except Exception as e:
+        print(f"❌ Erreur sauvegarde MongoDB: {str(e)}")
+        return False
+
+def load_history_from_mongo():
+    """Charger l'historique depuis MongoDB"""
+    if not MONGODB_AVAILABLE:
         return []
-    except:
+    try:
+        data = list(history_collection.find({}).sort('timestamp', -1))
+        # Convertir ObjectId en chaîne pour JSON
+        for item in data:
+            item['_id'] = str(item['_id'])
+        return data
+    except Exception as e:
+        print(f"❌ Erreur chargement MongoDB: {str(e)}")
         return []
 
-def save_history(data):
+def save_stats_to_mongo(stats):
+    """Sauvegarder les statistiques dans MongoDB"""
+    if not MONGODB_AVAILABLE:
+        return False
     try:
-        with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
+        stats_collection.update_one(
+            {'_id': 'stats'},
+            {'$set': stats},
+            upsert=True
+        )
+        return True
+    except Exception as e:
+        print(f"❌ Erreur sauvegarde stats: {str(e)}")
+        return False
+
+def load_stats_from_mongo():
+    """Charger les statistiques depuis MongoDB"""
+    if not MONGODB_AVAILABLE:
+        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+    try:
+        stats = stats_collection.find_one({'_id': 'stats'})
+        if stats:
+            stats.pop('_id', None)
+            return stats
+        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+    except Exception as e:
+        print(f"❌ Erreur chargement stats: {str(e)}")
+        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+
+# ============================================
+# FONCTIONS DE SECOURS (FICHIERS LOCAUX)
+# ============================================
+
+def save_history_to_file(data):
+    """Sauvegarder l'historique dans un fichier local"""
+    try:
+        with open('history.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         return True
-    except:
+    except Exception as e:
+        print(f"❌ Erreur sauvegarde fichier: {str(e)}")
         return False
 
-# ============================================
-# FONCTIONS STATISTIQUES - SYNCHRONISÉES
-# ============================================
-
-def load_stats():
-    """Charger les statistiques"""
+def load_history_from_file():
+    """Charger l'historique depuis un fichier local"""
     try:
-        if os.path.exists(STATS_FILE):
-            with open(STATS_FILE, 'r', encoding='utf-8') as f:
+        if os.path.exists('history.json'):
+            with open('history.json', 'r', encoding='utf-8') as f:
                 return json.load(f)
-        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
-    except:
-        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+        return []
+    except Exception as e:
+        print(f"❌ Erreur chargement fichier: {str(e)}")
+        return []
 
-def save_stats(stats):
-    """Sauvegarder les statistiques"""
+def save_stats_to_file(stats):
+    """Sauvegarder les statistiques dans un fichier local"""
     try:
-        with open(STATS_FILE, 'w', encoding='utf-8') as f:
+        with open('stats.json', 'w', encoding='utf-8') as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
         return True
-    except:
+    except Exception as e:
+        print(f"❌ Erreur sauvegarde stats fichier: {str(e)}")
         return False
 
-def update_stats(risk_score):
-    """Mettre à jour les statistiques"""
-    stats = load_stats()
-    stats['total_analyses'] = stats.get('total_analyses', 0) + 1
-    if risk_score > 30:
-        stats['phishing_detected'] = stats.get('phishing_detected', 0) + 1
+def load_stats_from_file():
+    """Charger les statistiques depuis un fichier local"""
+    try:
+        if os.path.exists('stats.json'):
+            with open('stats.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+    except Exception as e:
+        print(f"❌ Erreur chargement stats fichier: {str(e)}")
+        return {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+
+# ============================================
+# FONCTIONS PRINCIPALES (MongoDB ou Fichier)
+# ============================================
+
+def save_history(data):
+    """Sauvegarder l'historique (MongoDB ou fichier)"""
+    if MONGODB_AVAILABLE:
+        return save_history_to_mongo(data)
     else:
-        stats['safe_detected'] = stats.get('safe_detected', 0) + 1
+        return save_history_to_file(data)
+
+def load_history():
+    """Charger l'historique (MongoDB ou fichier)"""
+    if MONGODB_AVAILABLE:
+        return load_history_from_mongo()
+    else:
+        return load_history_from_file()
+
+def save_stats(stats):
+    """Sauvegarder les statistiques (MongoDB ou fichier)"""
+    if MONGODB_AVAILABLE:
+        return save_stats_to_mongo(stats)
+    else:
+        return save_stats_to_file(stats)
+
+def load_stats():
+    """Charger les statistiques (MongoDB ou fichier)"""
+    if MONGODB_AVAILABLE:
+        return load_stats_from_mongo()
+    else:
+        return load_stats_from_file()
+
+def reset_all_stats():
+    """Réinitialiser toutes les stats à zéro"""
+    stats = {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
     save_stats(stats)
     return stats
 
@@ -101,9 +224,14 @@ def recalculate_stats_from_history():
     save_stats(stats)
     return stats
 
-def reset_all_stats():
-    """Réinitialiser toutes les stats à zéro"""
-    stats = {'total_analyses': 0, 'phishing_detected': 0, 'safe_detected': 0}
+def update_stats(risk_score):
+    """Mettre à jour les statistiques (AJOUTE, ne supprime pas)"""
+    stats = load_stats()
+    stats['total_analyses'] = stats.get('total_analyses', 0) + 1
+    if risk_score > 30:
+        stats['phishing_detected'] = stats.get('phishing_detected', 0) + 1
+    else:
+        stats['safe_detected'] = stats.get('safe_detected', 0) + 1
     save_stats(stats)
     return stats
 
@@ -112,6 +240,7 @@ def reset_all_stats():
 # ============================================
 
 def analyze_url(url):
+    """Analyser une URL pour détecter le phishing"""
     indicators = []
     risk_score = 0
     
@@ -169,7 +298,7 @@ def analyze_url(url):
             })
             risk_score += 25
         
-    except:
+    except Exception as e:
         indicators.append({
             'type': 'invalid_url',
             'description': '❌ URL invalide',
@@ -222,6 +351,7 @@ def analyze_url(url):
     }
 
 def analyze_text(content):
+    """Analyser un texte pour détecter le phishing"""
     content_lower = content.lower()
     indicators = []
     risk_score = 0
@@ -327,6 +457,7 @@ def analyze_text(content):
     }
 
 def analyze_content(content, content_type='text'):
+    """Analyser le contenu selon son type"""
     if content_type == 'url':
         return analyze_url(content)
     else:
@@ -337,6 +468,7 @@ def analyze_content(content, content_type='text'):
 # ============================================
 
 def generate_pdf_report(analysis_data):
+    """Générer un rapport PDF"""
     if not REPORTLAB_AVAILABLE:
         return None
     
@@ -460,15 +592,17 @@ def generate_pdf_report(analysis_data):
         return None
 
 # ============================================
-# ROUTES API - AVEC SUPPRESSION SYNCHRONISÉE
+# ROUTES API
 # ============================================
 
 @app.route('/')
 def index():
+    """Page d'accueil"""
     return render_template('index.html')
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze():
+    """Analyser un contenu"""
     try:
         data = request.get_json()
         if not data:
@@ -497,6 +631,7 @@ def analyze():
             'recommendations': result['recommendations']
         }
         
+        # Sauvegarder dans l'historique
         history = load_history()
         history.insert(0, entry)
         if len(history) > 50:
@@ -518,82 +653,21 @@ def analyze():
         }), 200
         
     except Exception as e:
+        print(f"❌ Erreur analyse: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
+    """Récupérer les statistiques"""
     try:
         stats = load_stats()
         return jsonify(stats), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/history', methods=['GET'])
-def get_history():
-    try:
-        history = load_history()
-        return jsonify({'history': history}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/api/history/<analysis_id>', methods=['GET'])
-def get_analysis(analysis_id):
-    try:
-        history = load_history()
-        for item in history:
-            if item.get('id') == analysis_id:
-                return jsonify(item), 200
-        return jsonify({'error': 'Non trouvé'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-# ============================================
-# ⭐ SUPPRESSION SYNCHRONISÉE
-# ============================================
-
-@app.route('/api/history/<analysis_id>', methods=['DELETE'])
-def delete_analysis(analysis_id):
-    """Supprimer une analyse ET mettre à jour les stats"""
-    try:
-        # 1. Supprimer l'analyse
-        history = load_history()
-        history = [item for item in history if item.get('id') != analysis_id]
-        save_history(history)
-        
-        # 2. 🔄 RECALCULER les stats à partir de l'historique
-        stats = recalculate_stats_from_history()
-        
-        return jsonify({
-            'message': 'Analyse supprimée',
-            'stats': stats
-        }), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/api/history/clear', methods=['DELETE'])
-def clear_history():
-    """Vider l'historique ET réinitialiser les stats"""
-    try:
-        # 1. Vider l'historique
-        save_history([])
-        
-        # 2. 🔄 RÉINITIALISER les stats à zéro
-        stats = reset_all_stats()
-        
-        return jsonify({
-            'message': 'Historique vidé et stats réinitialisées',
-            'stats': stats
-        }), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-# ============================================
-# ADMIN - RÉINITIALISATION
-# ============================================
-
 @app.route('/api/stats/reset', methods=['POST'])
 def reset_stats():
-    """Réinitialiser toutes les stats (admin)"""
+    """Réinitialiser les statistiques"""
     try:
         stats = reset_all_stats()
         return jsonify({'message': 'Stats réinitialisées', 'stats': stats}), 200
@@ -609,8 +683,61 @@ def recalculate_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/history', methods=['GET'])
+def get_history():
+    """Récupérer l'historique"""
+    try:
+        history = load_history()
+        return jsonify({'history': history}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/history/<analysis_id>', methods=['GET'])
+def get_analysis(analysis_id):
+    """Récupérer une analyse spécifique"""
+    try:
+        history = load_history()
+        for item in history:
+            if item.get('id') == analysis_id:
+                return jsonify(item), 200
+        return jsonify({'error': 'Non trouvé'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/history/<analysis_id>', methods=['DELETE'])
+def delete_analysis(analysis_id):
+    """Supprimer une analyse ET recalculer les stats"""
+    try:
+        history = load_history()
+        history = [item for item in history if item.get('id') != analysis_id]
+        save_history(history)
+        
+        # Recalculer les stats
+        stats = recalculate_stats_from_history()
+        
+        return jsonify({
+            'message': 'Analyse supprimée',
+            'stats': stats
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/history/clear', methods=['DELETE'])
+def clear_history():
+    """Vider l'historique ET réinitialiser les stats"""
+    try:
+        save_history([])
+        stats = reset_all_stats()
+        return jsonify({
+            'message': 'Historique vidé et stats réinitialisées',
+            'stats': stats
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/report/<analysis_id>', methods=['GET'])
 def get_report(analysis_id):
+    """Générer un rapport PDF"""
     try:
         history = load_history()
         analysis_data = None
@@ -639,12 +766,18 @@ def get_report(analysis_id):
 
 @app.route('/api/health', methods=['GET'])
 def health():
+    """Vérification de l'état"""
     return jsonify({
         'status': 'ok',
         'time': datetime.now().isoformat(),
         'history_count': len(load_history()),
-        'stats': load_stats()
+        'stats': load_stats(),
+        'mongodb_available': MONGODB_AVAILABLE
     }), 200
+
+# ============================================
+# LANCEMENT DE L'APPLICATION
+# ============================================
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
