@@ -1,5 +1,61 @@
 [
   {
+    "id": "analysis-3701048376",
+    "timestamp": "2026-07-06T14:52:00.552081",
+    "analysis_type": "text",
+    "content": "mnnbnbnbFrom: service@paypal-securite.com\nSubject: URGENT: Votre compte PayPal a été limité\n\nCher client,\n\nNous avons détecté des activités suspectes sur votre compte PayPal. Pour des raisons de sécurité, nous avons temporairement limité l'accès à votre compte.\n\nVeuillez confirmer votre identité dans les 24 heures en cliquant sur le lien ci-dessous :\nhttps://paypal-verification-securite.xyz/confirmer\n\nSi vous ne confirmez pas votre identité, votre compte sera définitivement suspendu.\n\nCordialement,\nL'équipe PayPal Security",
+    "content_preview": "mnnbnbnbFrom: service@paypal-securite.com\nSubject: URGENT: Votre compte PayPal a été limité\n\nCher client,\n\nNous avons détecté des activités suspectes sur votre compte PayPal. Pour des raisons de sécur...",
+    "risk_score": 51,
+    "threat_level": "High",
+    "explanation": "⚠️ **Phishing détecté !** Score: 51/100\n5 indicateurs trouvés.",
+    "indicators": [
+      {
+        "type": "urgency",
+        "description": "⚠️ Urgence détectée (1 expressions)",
+        "severity": "medium"
+      },
+      {
+        "type": "credential_request",
+        "description": "🔑 Demande d'identifiants (2 expressions)",
+        "severity": "medium"
+      },
+      {
+        "type": "suspicious_links",
+        "description": "🔗 Liens suspects détectés (1)",
+        "severity": "high"
+      },
+      {
+        "type": "impersonation",
+        "description": "🏢 Usurpation de marque (1 mentions)",
+        "severity": "high"
+      },
+      {
+        "type": "threat",
+        "description": "⚠️ Langage menaçant (2 expressions)",
+        "severity": "high"
+      }
+    ],
+    "recommendations": [
+      "⚠️ Faire preuve de prudence",
+      "🔍 Vérifier l'identité de l'expéditeur",
+      "📧 Ne pas partager d'informations personnelles"
+    ]
+  },
+  {
+    "id": "analysis--247796862",
+    "timestamp": "2026-07-06T14:51:32.396415",
+    "analysis_type": "text",
+    "content": "mnnbnbnb",
+    "content_preview": "mnnbnbnb",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  },
+  {
     "id": "analysis-8916331500",
     "timestamp": "2026-07-06T14:44:28.539960",
     "analysis_type": "text",

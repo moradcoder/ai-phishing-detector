@@ -338,7 +338,7 @@ def generate_pdf_report(analysis_data):
             styles['Normal']
         ))
         content_pdf.append(Paragraph(
-            "© 2024 AI Phishing Detector - Tous droits réservés.",
+            "© 2026 AI Phishing Detector - Tous droits réservés.",
             styles['Normal']
         ))
         
