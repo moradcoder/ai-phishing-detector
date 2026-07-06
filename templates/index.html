@@ -1197,42 +1197,152 @@
 
         // ============================================
         // EXPORT PDF
-        // ============================================
-        async function exportPDF() {
-            if (!currentAnalysis) {
-                showToast('No analysis to export.', 'error');
-                return;
-            }
+        // ============================================// ============================================
+// EXPORT PDF - Version corrigée
+// ============================================
+async function exportPDF() {
+    if (!currentAnalysis) {
+        showToast('Aucune analyse à exporter.', 'error');
+        return;
+    }
 
-            const exportBtn = document.getElementById('exportBtn');
-            exportBtn.disabled = true;
-            exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating...';
+    const exportBtn = document.getElementById('exportBtn');
+    exportBtn.disabled = true;
+    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Génération...';
 
-            try {
-                const response = await fetch(`/api/report/${currentAnalysis.id}`);
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `phishing_report_${currentAnalysis.id}.pdf`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showToast(translations[currentLang].toast_pdf_downloaded, 'success');
-                } else {
-                    showToast(translations[currentLang].toast_pdf_failed, 'error');
-                }
-            } catch (error) {
-                showToast(translations[currentLang].toast_pdf_failed, 'error');
-                console.error('PDF error:', error);
-            } finally {
-                exportBtn.disabled = false;
-                exportBtn.innerHTML = `<i class="fas fa-file-pdf me-2"></i>${translations[currentLang].export_pdf}`;
-            }
+    try {
+        // Utiliser l'ID de l'analyse courante
+        const analysisId = currentAnalysis.id;
+        if (!analysisId || analysisId === '-') {
+            showToast('ID d\'analyse invalide.', 'error');
+            exportBtn.disabled = false;
+            exportBtn.innerHTML = `<i class="fas fa-file-pdf me-2"></i>${translations[currentLang].export_pdf}`;
+            return;
         }
 
+        const response = await fetch(`/api/report/${analysisId}`);
+        
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rapport_phishing_${analysisId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('PDF téléchargé avec succès !', 'success');
+        } else {
+            const errorData = await response.json();
+            showToast(errorData.error || 'Erreur lors de la génération du PDF', 'error');
+        }
+    } catch (error) {
+        showToast('Erreur lors de la génération du PDF', 'error');
+        console.error('PDF error:', error);
+    } finally {
+        exportBtn.disabled = false;
+        exportBtn.innerHTML = `<i class="fas fa-file-pdf me-2"></i>${translations[currentLang].export_pdf}`;
+    }
+}
+
+// ============================================
+// AFFICHAGE DES RESULTATS - Version corrigée
+// ============================================
+function displayResults(data) {
+    const resultsSection = document.getElementById('resultsSection');
+    resultsSection.style.display = 'block';
+
+    // Score
+    const score = data.risk_score || 0;
+    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--score-percent', `${score}%`);
+
+    // Niveau de menace
+    const threatLevel = data.threat_level || 'Safe';
+    const threatBadge = document.getElementById('threatBadge');
+    const threatKey = threatLevel.toLowerCase();
+    const threatMap = {
+        'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+        'high': 'threat_high', 'critical': 'threat_critical'
+    };
+    
+    // Traduction du niveau
+    const threatTransMap = {
+        'safe': 'threat_safe', 'low': 'threat_low', 'medium': 'threat_medium',
+        'high': 'threat_high', 'critical': 'threat_critical'
+    };
+    let translatedThreat = threatLevel;
+    if (threatTransMap[threatKey] && translations[currentLang] && translations[currentLang][threatTransMap[threatKey]]) {
+        translatedThreat = translations[currentLang][threatTransMap[threatKey]];
+    }
+    
+    threatBadge.textContent = translatedThreat;
+    threatBadge.className = `badge threat-${threatKey}`;
+
+    // Explication
+    document.getElementById('explanationText').textContent = data.explanation || 'Aucune explication.';
+
+    // Indicateurs
+    const indicatorsList = document.getElementById('indicatorsList');
+    if (data.indicators && data.indicators.length > 0) {
+        indicatorsList.innerHTML = data.indicators.map(ind => `
+            <div class="indicator-item">
+                <span>${ind.description || 'Indicateur inconnu'}</span>
+                <span class="severity-${ind.severity?.toLowerCase() || 'low'}">
+                    <i class="fas fa-circle fa-xs me-1"></i>${ind.severity || 'Low'}
+                </span>
+            </div>
+        `).join('');
+    } else {
+        indicatorsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_indicators}</p>`;
+    }
+
+    // Recommandations
+    const recommendationsList = document.getElementById('recommendationsList');
+    if (data.recommendations && data.recommendations.length > 0) {
+        recommendationsList.innerHTML = data.recommendations.map(rec => `
+            <div class="recommendation-item">
+                <i class="fas fa-check-circle text-primary me-2"></i>${rec}
+            </div>
+        `).join('');
+    } else {
+        recommendationsList.innerHTML = `<p class="text-secondary">${translations[currentLang].no_recommendations}</p>`;
+    }
+
+    // ID de l'analyse (important pour le PDF)
+    const analysisId = data.id || 'N/A';
+    document.getElementById('analysisId').innerHTML = `${translations[currentLang].id_label}: ${analysisId}`;
+    
+    // Stocker l'analyse courante avec son ID
+    currentAnalysis = {
+        ...data,
+        id: analysisId  // S'assurer que l'ID est présent
+    };
+}
+
+// ============================================
+// CHARGER UNE ANALYSE DEPUIS L'HISTORIQUE - Version corrigée
+// ============================================
+async function loadAnalysis(analysisId) {
+    try {
+        const response = await fetch(`/api/history/${analysisId}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+            // S'assurer que l'ID est présent
+            data.id = analysisId;
+            displayResults(data);
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            showToast(translations[currentLang].toast_analysis_loaded || 'Analyse chargée depuis l\'historique', 'info');
+        } else {
+            showToast('Erreur lors du chargement', 'error');
+        }
+    } catch (error) {
+        showToast('Erreur lors du chargement', 'error');
+        console.error('Load error:', error);
+    }
+}
         // ============================================
         // HISTORIQUE
         // ============================================

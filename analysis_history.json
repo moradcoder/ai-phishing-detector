@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "analysis-8916331500",
+    "timestamp": "2026-07-06T14:44:28.539960",
+    "analysis_type": "text",
+    "content": "nnnn",
+    "content_full": "nnnn",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  },
+  {
+    "id": "analysis--364445421",
+    "timestamp": "2026-07-06T14:44:12.413866",
+    "analysis_type": "text",
+    "content": "mmmm",
+    "content_full": "mmmm",
+    "risk_score": 0,
+    "threat_level": "Safe",
+    "explanation": "✅ Aucun indicateur de phishing détecté.",
+    "indicators": [],
+    "recommendations": [
+      "✅ Le contenu semble sûr"
+    ]
+  }
+]

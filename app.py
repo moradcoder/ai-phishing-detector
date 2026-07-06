@@ -1,12 +1,19 @@
-# app.py - Version complète avec historique et suppression
+# app.py - Version corrigée avec historique et PDF
 import os
 import logging
 import re
 import json
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 from flask_cors import CORS
 from dotenv import load_dotenv
+from io import BytesIO
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 
 # Charger les variables d'environnement
 load_dotenv()
@@ -23,7 +30,7 @@ CORS(app)
 HISTORY_FILE = 'analysis_history.json'
 
 # ============================================
-# Fonctions de gestion de l'historique
+# FONCTIONS DE GESTION DE L'HISTORIQUE
 # ============================================
 
 def load_history():
@@ -52,9 +59,9 @@ def add_to_history(analysis_data):
     history = load_history()
     # Ajouter la nouvelle analyse au début
     history.insert(0, analysis_data)
-    # Garder seulement les 100 dernières entrées
-    if len(history) > 100:
-        history = history[:100]
+    # Garder seulement les 50 dernières entrées
+    if len(history) > 50:
+        history = history[:50]
     save_history(history)
     return True
 
@@ -71,7 +78,7 @@ def clear_history():
     return True
 
 # ============================================
-# Fonctions d'analyse (inchangées)
+# FONCTIONS D'ANALYSE
 # ============================================
 
 def analyze_phishing(content, content_type='text'):
@@ -138,7 +145,7 @@ def analyze_phishing(content, content_type='text'):
     impersonation_phrases = [
         'paypal', 'bank of america', 'wells fargo', 'chase', 'citibank',
         'microsoft', 'apple', 'google', 'amazon', 'facebook',
-        'credit agricole', 'societe generale', 'bnp'
+        'credit agricole', 'societe generale', 'bnp', 'orange', 'free'
     ]
     impersonation_count = sum(1 for phrase in impersonation_phrases if phrase in content_lower)
     if impersonation_count > 0:
@@ -152,7 +159,8 @@ def analyze_phishing(content, content_type='text'):
     # 5. Menaces
     threat_phrases = [
         'suspend', 'block', 'close', 'terminate', 'deactivate',
-        'delete', 'permanently', 'without notice', 'suspendu'
+        'delete', 'permanently', 'without notice', 'suspendu',
+        'bloqué', 'fermer', 'terminer', 'désactiver'
     ]
     threat_count = sum(1 for phrase in threat_phrases if phrase in content_lower)
     if threat_count > 0:
@@ -233,7 +241,118 @@ def determine_threat_level(risk_score):
         return 'Critical'
 
 # ============================================
-# Routes API
+# GÉNÉRATION PDF
+# ============================================
+
+def generate_pdf_report(analysis_data):
+    """Générer un rapport PDF"""
+    try:
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        styles = getSampleStyleSheet()
+        
+        # Style personnalisé pour le titre
+        title_style = ParagraphStyle(
+            'TitleStyle',
+            parent=styles['Heading1'],
+            fontSize=24,
+            textColor=colors.HexColor('#1a73e8'),
+            alignment=TA_CENTER,
+            spaceAfter=30
+        )
+        
+        # Style pour les sous-titres
+        heading_style = ParagraphStyle(
+            'HeadingStyle',
+            parent=styles['Heading2'],
+            fontSize=16,
+            textColor=colors.HexColor('#333333'),
+            spaceAfter=12
+        )
+        
+        content_pdf = []
+        
+        # Titre
+        content_pdf.append(Paragraph("🔒 Rapport d'Analyse Phishing", title_style))
+        content_pdf.append(Spacer(1, 12))
+        
+        # Informations générales
+        content_pdf.append(Paragraph(f"<b>ID:</b> {analysis_data.get('id', 'N/A')}", styles['Normal']))
+        content_pdf.append(Paragraph(f"<b>Date:</b> {analysis_data.get('timestamp', 'N/A')}", styles['Normal']))
+        content_pdf.append(Paragraph(f"<b>Type:</b> {analysis_data.get('analysis_type', 'text')}", styles['Normal']))
+        content_pdf.append(Spacer(1, 12))
+        
+        # Score et niveau
+        risk_score = analysis_data.get('risk_score', 0)
+        threat_level = analysis_data.get('threat_level', 'Safe')
+        
+        risk_color = '#00c853' if threat_level == 'Safe' else '#ffd600' if threat_level == 'Low' else '#ff9100' if threat_level == 'Medium' else '#ff1744' if threat_level == 'High' else '#d50000'
+        
+        risk_style = ParagraphStyle(
+            'RiskStyle',
+            parent=styles['Normal'],
+            fontSize=18,
+            textColor=colors.HexColor(risk_color),
+            alignment=TA_CENTER,
+            spaceAfter=6
+        )
+        
+        content_pdf.append(Paragraph(f"<b>Score de Risque:</b> {risk_score}/100", risk_style))
+        content_pdf.append(Paragraph(f"<b>Niveau de Menace:</b> {threat_level}", risk_style))
+        content_pdf.append(Spacer(1, 12))
+        
+        # Explication
+        content_pdf.append(Paragraph("📝 Explication", heading_style))
+        content_pdf.append(Paragraph(analysis_data.get('explanation', 'Aucune explication'), styles['Normal']))
+        content_pdf.append(Spacer(1, 12))
+        
+        # Indicateurs
+        content_pdf.append(Paragraph("🚨 Indicateurs Détectés", heading_style))
+        indicators = analysis_data.get('indicators', [])
+        if indicators:
+            for ind in indicators:
+                content_pdf.append(Paragraph(f"• {ind.get('description', 'Inconnu')}", styles['Normal']))
+                content_pdf.append(Paragraph(f"  <i>Severité: {ind.get('severity', 'Low')}</i>", styles['Normal']))
+                content_pdf.append(Spacer(1, 6))
+        else:
+            content_pdf.append(Paragraph("Aucun indicateur détecté.", styles['Normal']))
+        
+        content_pdf.append(Spacer(1, 12))
+        
+        # Recommandations
+        content_pdf.append(Paragraph("🛡️ Recommandations", heading_style))
+        recommendations = analysis_data.get('recommendations', [])
+        if recommendations:
+            for rec in recommendations:
+                content_pdf.append(Paragraph(f"• {rec}", styles['Normal']))
+                content_pdf.append(Spacer(1, 6))
+        else:
+            content_pdf.append(Paragraph("Aucune recommandation disponible.", styles['Normal']))
+        
+        content_pdf.append(Spacer(1, 12))
+        
+        # Pied de page
+        content_pdf.append(Paragraph("---", styles['Normal']))
+        content_pdf.append(Paragraph(
+            "Rapport généré automatiquement par AI Phishing Detector",
+            styles['Normal']
+        ))
+        content_pdf.append(Paragraph(
+            "© 2024 AI Phishing Detector - Tous droits réservés.",
+            styles['Normal']
+        ))
+        
+        # Construction du PDF
+        doc.build(content_pdf)
+        buffer.seek(0)
+        return buffer
+        
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération du PDF: {str(e)}")
+        return None
+
+# ============================================
+# ROUTES API
 # ============================================
 
 @app.route('/')
@@ -263,14 +382,15 @@ def analyze():
         
         # Créer un ID unique
         analysis_id = 'analysis-' + str(hash(content + str(datetime.now())))[:10]
+        timestamp = datetime.now().isoformat()
         
-        # Préparer les données
+        # Préparer les données pour l'historique (avec le texte complet)
         analysis_data = {
             'id': analysis_id,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': timestamp,
             'analysis_type': analysis_type,
-            'content': content[:500] + '...' if len(content) > 500 else content,
-            'content_full': content,  # Garder le contenu complet pour l'historique
+            'content': content,  # ✅ Texte complet pour l'historique
+            'content_preview': content[:200] + '...' if len(content) > 200 else content,
             'risk_score': result.get('risk_score', 0),
             'threat_level': threat_level,
             'explanation': result.get('explanation', 'Analyse terminée'),
@@ -284,7 +404,7 @@ def analyze():
         # Retourner la réponse
         return jsonify({
             'id': analysis_id,
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': timestamp,
             'analysis_type': analysis_type,
             'content': content[:500] + '...' if len(content) > 500 else content,
             'risk_score': result.get('risk_score', 0),
@@ -319,7 +439,18 @@ def get_analysis(analysis_id):
         history = load_history()
         for item in history:
             if item.get('id') == analysis_id:
-                return jsonify(item), 200
+                # Retourner les données avec le texte complet pour l'affichage
+                return jsonify({
+                    'id': item.get('id'),
+                    'timestamp': item.get('timestamp'),
+                    'analysis_type': item.get('analysis_type', 'text'),
+                    'content': item.get('content', ''),
+                    'risk_score': item.get('risk_score', 0),
+                    'threat_level': item.get('threat_level', 'Safe'),
+                    'explanation': item.get('explanation', ''),
+                    'indicators': item.get('indicators', []),
+                    'recommendations': item.get('recommendations', [])
+                }), 200
         return jsonify({'error': 'Analyse non trouvée'}), 404
     except Exception as e:
         logger.error(f"Erreur: {str(e)}")
@@ -347,6 +478,38 @@ def clear_all_history():
         logger.error(f"Erreur: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/report/<analysis_id>', methods=['GET'])
+def generate_report(analysis_id):
+    """Générer et télécharger un rapport PDF"""
+    try:
+        # Récupérer l'analyse
+        history = load_history()
+        analysis_data = None
+        for item in history:
+            if item.get('id') == analysis_id:
+                analysis_data = item
+                break
+        
+        if not analysis_data:
+            return jsonify({'error': 'Analyse non trouvée'}), 404
+        
+        # Générer le PDF
+        pdf_buffer = generate_pdf_report(analysis_data)
+        
+        if pdf_buffer:
+            return send_file(
+                pdf_buffer,
+                as_attachment=True,
+                download_name=f"rapport_phishing_{analysis_id}.pdf",
+                mimetype='application/pdf'
+            )
+        else:
+            return jsonify({'error': 'Erreur lors de la génération du PDF'}), 500
+            
+    except Exception as e:
+        logger.error(f"Erreur de génération PDF: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Vérifier l'état du service"""
@@ -359,7 +522,7 @@ def health_check():
     }), 200
 
 # ============================================
-# Gestion des erreurs
+# GESTION DES ERREURS
 # ============================================
 
 @app.errorhandler(404)
@@ -372,7 +535,7 @@ def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 # ============================================
-# Lancement de l'application
+# LANCEMENT DE L'APPLICATION
 # ============================================
 
 app = app
